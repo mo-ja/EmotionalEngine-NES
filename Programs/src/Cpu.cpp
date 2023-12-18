@@ -6,15 +6,15 @@
 #include "Cpu.h"
 
 namespace {
-    // M, N ‚ğ 8bit•„†•t‚«®”A C ‚ğƒLƒƒƒŠ[ƒtƒ‰ƒO‚Æ‚µ‚½‚Æ‚«AN + M + C ‚ªƒI[ƒo[ƒtƒ[‚·‚é‚©H
-    // •„†•t‚«®”‚Ì‰ÁŒ¸ZƒI[ƒo[ƒtƒ[”»’è‚¾‚ªAˆø”‚Í uint8_t‚Å‚ ‚é‚±‚Æ‚É’ˆÓ‚·‚é(•„†•t‚«®”‚ÌƒI[ƒo[ƒtƒ[‚Í–¢’è‹`)
+    // M, N ï¿½ï¿½ 8bitï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½A C ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½tï¿½ï¿½ï¿½Oï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½AN + M + C ï¿½ï¿½ï¿½Iï¿½[ï¿½oï¿½[ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½é‚©ï¿½H
+    // ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½Zï¿½Iï¿½[ï¿½oï¿½[ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½è‚¾ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ uint8_tï¿½Å‚ï¿½ï¿½é‚±ï¿½Æ‚É’ï¿½ï¿½Ó‚ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒIï¿½[ï¿½oï¿½[ï¿½tï¿½ï¿½ï¿½[ï¿½Í–ï¿½ï¿½ï¿½`)
     bool isSignedOverFlowed(uint8_t N, uint8_t M, bool C)
     {
         uint8_t res = N + M + C;
         return ((M ^ res) & (N ^ res) & 0x80) == 0x80;
     }
 
-    // 8bit •„†‚Â‚«®”‚É‚¨‚¯‚é n ‚Ì 2‚Ì•â”•\Œ»‚ğæ“¾‚·‚é
+    // 8bit ï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ n ï¿½ï¿½ 2ï¿½Ì•â”ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
     uint8_t GetTwosComplement(uint8_t n)
     {
         return ~n + 1;
@@ -442,7 +442,7 @@ namespace nes { namespace detail {
         case 0x5F:
             return Instruction(Opcode::SRE, AddressingMode::AbsoluteX, 3, 7);
         // Duplicated Instructions
-        // ADC ‚Í SBC ‚Å‘ã—p‚³‚ê‚é‚±‚Æ‚É’ˆÓ‚·‚é
+        // ADC ï¿½ï¿½ SBC ï¿½Å‘ï¿½pï¿½ï¿½ï¿½ï¿½é‚±ï¿½Æ‚É’ï¿½ï¿½Ó‚ï¿½ï¿½ï¿½
         case 0xEB:
             return Instruction(Opcode::SBC, AddressingMode::Immediate, 2, 2);
         // NOPs
@@ -468,7 +468,7 @@ namespace nes { namespace detail {
             return Instruction(Opcode::SKB, AddressingMode::Immediate, 2, 2);
         case 0xE2:
             return Instruction(Opcode::SKB, AddressingMode::Immediate, 2, 2);
-        // IGN ‚àƒy[ƒWƒNƒƒX‚Å +1 ƒNƒƒbƒNH
+        // IGN ï¿½ï¿½ï¿½yï¿½[ï¿½Wï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ +1 ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½H
         case 0x0C:
             return Instruction(Opcode::IGN, AddressingMode::Absolute, 3, 4);
         case 0x1C:
@@ -501,10 +501,10 @@ namespace nes { namespace detail {
             return Instruction(Opcode::IGN, AddressingMode::ZeroPageX, 2, 4);
         case 0xF4:
             return Instruction(Opcode::IGN, AddressingMode::ZeroPageX, 2, 4);
-        // CLD, CLV, SED ‚Í•K—v‚È‚çÀ‘•‚·‚é
+        // CLD, CLV, SED ï¿½Í•Kï¿½vï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 		default:
-			abort();
+			exit(-1);
 			break;
 		}
 	}
@@ -608,16 +608,16 @@ namespace nes { namespace detail {
     {
         return (P & 1) == 1;
     }
-    // ‘ÎÛ‚ÌƒAƒhƒŒƒX‚ğƒtƒFƒbƒ`‚·‚éŒNA’l‚Ìæ“¾ƒŒƒCƒ„[‚Íˆê‚Âã‚Ì‘w‚ğ‚Â‚­‚Á‚Ä‚»‚±‚Å‚â‚é
+    // ï¿½ÎÛ‚ÌƒAï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½tï¿½Fï¿½bï¿½`ï¿½ï¿½ï¿½ï¿½Nï¿½Aï¿½lï¿½Ìæ“¾ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Íˆï¿½Âï¿½Ì‘wï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½
     void Cpu::FetchAddr(AddressingMode mode, uint16_t* pOutAddr, uint8_t* pOutAdditionalCyc)
     {
-        // ƒAƒhƒŒƒX‚¶‚á‚È‚¢‚Í‚¸‚Ìl‚ç‚ª—ˆ‚Ä‚½‚çƒvƒƒOƒ‰ƒ~ƒ“ƒOƒ~ƒX‚È‚Ì‚Å assert ‚µ‚Æ‚­
+        // ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Í‚ï¿½ï¿½Ìlï¿½ç‚ªï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½~ï¿½ï¿½ï¿½Oï¿½~ï¿½Xï¿½È‚Ì‚ï¿½ assert ï¿½ï¿½ï¿½Æ‚ï¿½
         assert(mode != AddressingMode::Implied && mode != AddressingMode::Immediate && mode != AddressingMode::Accumulator);
 
         *pOutAddr = 0;
         *pOutAdditionalCyc = 0;
 
-        // PC ‚Í–½—ß‚ÆƒIƒyƒ‰ƒ“ƒh‚ÌƒtƒFƒbƒ`‚Å‚Í“®‚©‚³‚¸A–½—ßÀsŒã‚É‚Ü‚Æ‚ß‚Ä“®‚©‚·(ƒfƒoƒbƒOƒƒO‚ÌÀ‘•‚Å—L—˜‚É‚È‚écc‚Í‚¸)
+        // PC ï¿½Í–ï¿½ï¿½ß‚ÆƒIï¿½yï¿½ï¿½ï¿½ï¿½ï¿½hï¿½Ìƒtï¿½Fï¿½bï¿½`ï¿½Å‚Í“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ßï¿½ï¿½sï¿½ï¿½É‚Ü‚Æ‚ß‚Ä“ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½fï¿½oï¿½bï¿½Oï¿½ï¿½ï¿½Oï¿½Ìï¿½ï¿½ï¿½ï¿½Å—Lï¿½ï¿½ï¿½É‚È‚ï¿½cï¿½cï¿½Í‚ï¿½)
         if (mode == AddressingMode::Absolute)
         {
             uint16_t upper = 0;
@@ -641,7 +641,7 @@ namespace nes { namespace detail {
         {
             uint8_t lower = m_pCpuBus->ReadByte(PC + 1);
             
-            // ãˆÊƒoƒCƒg‚Ö‚ÌŒ…ã‚°‚Í–³‹A‚È‚Ì‚Å uint8 ‚Ì‚Ü‚Ü‰ÁZ‚·‚é
+            // ï¿½ï¿½Êƒoï¿½Cï¿½gï¿½Ö‚ÌŒï¿½ï¿½ã‚°ï¿½Í–ï¿½ï¿½ï¿½ï¿½Aï¿½È‚Ì‚ï¿½ uint8 ï¿½Ì‚Ü‚Ü‰ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½
             lower += X;
             *pOutAddr = lower;
         }
@@ -649,7 +649,7 @@ namespace nes { namespace detail {
         {
             uint8_t lower = m_pCpuBus->ReadByte(PC + 1);
 
-            // ãˆÊƒoƒCƒg‚Ö‚ÌŒ…ã‚°‚Í–³‹A‚È‚Ì‚Å uint8 ‚Ì‚Ü‚Ü‰ÁZ‚·‚é
+            // ï¿½ï¿½Êƒoï¿½Cï¿½gï¿½Ö‚ÌŒï¿½ï¿½ã‚°ï¿½Í–ï¿½ï¿½ï¿½ï¿½Aï¿½È‚Ì‚ï¿½ uint8 ï¿½Ì‚Ü‚Ü‰ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½
             lower += Y;
             *pOutAddr = lower;
         }
@@ -668,7 +668,7 @@ namespace nes { namespace detail {
             addr += X;
 
             *pOutAddr = addr;
-            // ƒy[ƒWƒNƒƒX‚Å +1 ƒNƒƒbƒN
+            // ï¿½yï¿½[ï¿½Wï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ +1 ï¿½Nï¿½ï¿½ï¿½bï¿½N
             if ((beforeAddr & 0xFF00) != (addr & 0xFF00))
             {
                 *pOutAdditionalCyc = 1;
@@ -690,7 +690,7 @@ namespace nes { namespace detail {
             addr += Y;
 
             *pOutAddr = addr;
-            // ƒy[ƒWƒNƒƒX‚Å +1 ƒNƒƒbƒN
+            // ï¿½yï¿½[ï¿½Wï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ +1 ï¿½Nï¿½ï¿½ï¿½bï¿½N
             if ((beforeAddr & 0xFF00) != (addr & 0xFF00))
             {
                 *pOutAdditionalCyc = 1;
@@ -699,18 +699,18 @@ namespace nes { namespace detail {
         else if (mode == AddressingMode::Relative)
         {
             uint8_t offset = m_pCpuBus->ReadByte(PC + 1);
-            // •„†Šg’£ ‚·‚é(áŠ±‰ö‚µ‚¢‚Ì‚ÅAƒoƒO‚Á‚½‚ç‹^‚¤(Åˆ«))
+            // ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½áŠ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÅAï¿½oï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½ï¿½(ï¿½Åˆï¿½))
             int32_t signedOffset = static_cast<int8_t>(offset);
-            // TORIAEZU: ƒtƒFƒbƒ`Ï‚Æ‚µ‚½‚Æ‚«‚Ì PC ‚ğ‹N“_‚É‚·‚é
+            // TORIAEZU: ï¿½tï¿½Fï¿½bï¿½`ï¿½Ï‚Æ‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ PC ï¿½ï¿½ï¿½Nï¿½_ï¿½É‚ï¿½ï¿½ï¿½
             int32_t signedPC = PC + 2;
 
             int32_t signedAddr = signedPC + signedOffset;
-            // uint16_t ‚Éû‚Ü‚Á‚Ä‚¢‚é‚±‚Æ‚ğŠm”F
+            // uint16_t ï¿½Éï¿½ï¿½Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½é‚±ï¿½Æ‚ï¿½ï¿½mï¿½F
             assert(signedAddr >= 0 && signedAddr <= 0xFFFF);
             uint16_t addr = static_cast<uint16_t>(signedAddr);
 
             *pOutAddr = addr;
-            // ƒy[ƒWƒNƒƒX‚Å +1 ƒNƒƒbƒNARelative ‚Íƒuƒ‰ƒ“ƒ`–½—ß‚Åg‚í‚ê‚é‚ªAƒuƒ‰ƒ“ƒ`¬—§‚É‚Í‚³‚ç‚É +1 ‚³‚ê‚é‚±‚Æ‚É’ˆÓ‚·‚é
+            // ï¿½yï¿½[ï¿½Wï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ +1 ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ARelative ï¿½Íƒuï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ß‚Ågï¿½ï¿½ï¿½é‚ªï¿½Aï¿½uï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚Í‚ï¿½ï¿½ï¿½ï¿½ +1 ï¿½ï¿½ï¿½ï¿½é‚±ï¿½Æ‚É’ï¿½ï¿½Ó‚ï¿½ï¿½ï¿½
             if ((signedPC & 0xFF00) != (addr & 0xFF00))
             {
                 *pOutAdditionalCyc = 1;
@@ -721,10 +721,10 @@ namespace nes { namespace detail {
             // *(lower + X)
             uint8_t indirectLower = 0;
             indirectLower = m_pCpuBus->ReadByte(PC + 1);
-            // ƒLƒƒƒŠ[‚Í–³‹ = ƒI[ƒo[ƒtƒ[‚µ‚Ä‚à‹C‚É‚µ‚È‚¢(•„†‚È‚µ®”‚ÌƒI[ƒo[ƒtƒ[‚Í–¢’è‹`‚Å‚È‚¢‚±‚Æ‚ğŠm”FÏ‚İ)
+            // ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½Í–ï¿½ï¿½ï¿½ = ï¿½Iï¿½[ï¿½oï¿½[ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Cï¿½É‚ï¿½ï¿½È‚ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒIï¿½[ï¿½oï¿½[ï¿½tï¿½ï¿½ï¿½[ï¿½Í–ï¿½ï¿½ï¿½`ï¿½Å‚È‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½mï¿½Fï¿½Ï‚ï¿½)
             uint8_t lowerAddr = indirectLower + X;
             uint8_t upperAddr = lowerAddr + 1;
-            // Indirect ‚È‚Ì‚ÅAFetchAddr “à‚Å1‰ñQÆ‚ğ”‚ª‚·
+            // Indirect ï¿½È‚Ì‚ÅAFetchAddr ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½Qï¿½Æ‚ğ”‚ï¿½ï¿½ï¿½
             uint16_t lower = m_pCpuBus->ReadByte(lowerAddr);
             uint16_t upper = m_pCpuBus->ReadByte(upperAddr);
 
@@ -735,10 +735,10 @@ namespace nes { namespace detail {
         else if (mode == AddressingMode::IndirectY)
         {
             // *(lower) + Y
-            // ƒLƒƒƒŠ[‚Í–³‹ = ƒI[ƒo[ƒtƒ[‚µ‚Ä‚à‹C‚É‚µ‚È‚¢
+            // ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½Í–ï¿½ï¿½ï¿½ = ï¿½Iï¿½[ï¿½oï¿½[ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Cï¿½É‚ï¿½ï¿½È‚ï¿½
             uint8_t lowerAddr = m_pCpuBus->ReadByte(PC + 1);
             uint8_t upperAddr = lowerAddr + 1;
-            // Indirect ‚È‚Ì‚ÅAFetchAddr “à‚Å1‰ñQÆ‚ğ”‚ª‚·
+            // Indirect ï¿½È‚Ì‚ÅAFetchAddr ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½Qï¿½Æ‚ğ”‚ï¿½ï¿½ï¿½
             uint16_t lower = m_pCpuBus->ReadByte(lowerAddr);
             uint16_t upper = m_pCpuBus->ReadByte(upperAddr);
 
@@ -748,7 +748,7 @@ namespace nes { namespace detail {
             addr += Y;
 
             *pOutAddr = addr;
-            // ƒy[ƒWƒNƒƒX‚Å +1 ƒNƒƒbƒN
+            // ï¿½yï¿½[ï¿½Wï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ +1 ï¿½Nï¿½ï¿½ï¿½bï¿½N
             if ((beforeAddr & 0xFF00) != (addr & 0xFF00))
             {
                 *pOutAdditionalCyc = 1;
@@ -764,11 +764,11 @@ namespace nes { namespace detail {
             indirectLower = m_pCpuBus->ReadByte(PC + 1);
             indirectUpper = m_pCpuBus->ReadByte(PC + 2);
 
-            // ƒCƒ“ƒNƒŠƒƒ“ƒg‚É‚¨‚¢‚Ä‰ºˆÊƒoƒCƒg‚©‚ç‚ÌƒLƒƒƒŠ[‚ğ–³‹‚·‚é‚½‚ß‚ÉA‰ºˆÊƒoƒCƒg‚É‰ÁZ‚µ‚Ä‚©‚çƒLƒƒƒXƒg‚·‚é(‚Ù‚ñ‚Ü‚©HHHHH)
-            // •„†‚È‚µ®”‚Ì‰ÁZ‚ÌƒI[ƒo[ƒtƒ[‚Ì‹““®‚ğŠú‘Ò‚µ‚Ä‚¢‚é‚Ì‚ÅA–¢’è‹`‚©‚à(TODO: ’²‚×‚é)
+            // ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½É‚ï¿½ï¿½ï¿½ï¿½Ä‰ï¿½ï¿½Êƒoï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ÌƒLï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ğ–³ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚ÉAï¿½ï¿½ï¿½Êƒoï¿½Cï¿½gï¿½É‰ï¿½ï¿½Zï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½(ï¿½Ù‚ï¿½Ü‚ï¿½ï¿½Hï¿½Hï¿½Hï¿½Hï¿½H)
+            // ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½Zï¿½ÌƒIï¿½[ï¿½oï¿½[ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì‹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Ì‚ÅAï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½(TODO: ï¿½ï¿½ï¿½×‚ï¿½)
             uint8_t indirectLower2 = indirectLower + 1;
 
-            // Indirect ‚È‚Ì‚ÅAFetchAddr “à‚Å1‰ñQÆ‚ğ”‚ª‚·
+            // Indirect ï¿½È‚Ì‚ÅAFetchAddr ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½Qï¿½Æ‚ğ”‚ï¿½ï¿½ï¿½
             uint16_t addrLower = m_pCpuBus->ReadByte(static_cast<uint16_t>(indirectLower) | (static_cast<uint16_t>(indirectUpper) << 8));
             uint16_t addrUpper = m_pCpuBus->ReadByte(static_cast<uint16_t>(indirectLower2) | (static_cast<uint16_t>(indirectUpper) << 8));
 
@@ -778,14 +778,14 @@ namespace nes { namespace detail {
         else
         {
             // unexpected default
-            abort();
+            exit(-1);
         }
     }
 
-    // ƒAƒhƒŒƒbƒVƒ“ƒOƒ‚[ƒh‚Æ‚¢‚Ü‚Ì PC ‚Ì’l‚©‚ç–½—ß‚Å‚Â‚©‚¤ˆø”(H)‚ğæ“¾‚·‚é
+    // ï¿½Aï¿½hï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½hï¿½Æ‚ï¿½ï¿½Ü‚ï¿½ PC ï¿½Ì’lï¿½ï¿½ï¿½ç–½ï¿½ß‚Å‚Â‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½H)ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
     void Cpu::FetchArg(AddressingMode mode, uint8_t* pOutValue, uint8_t* pOutAdditionalCyc)
     {
-        // ˆø”‚ğ‚½‚È‚¢ƒAƒhƒŒƒbƒVƒ“ƒOƒ‚[ƒh‚ÅŒÄ‚Î‚ê‚½‚çƒvƒƒOƒ‰ƒ~ƒ“ƒOƒ~ƒX‚È‚Ì‚Å assert ‚µ‚Æ‚­
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½hï¿½ÅŒÄ‚Î‚ê‚½ï¿½ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½~ï¿½ï¿½ï¿½Oï¿½~ï¿½Xï¿½È‚Ì‚ï¿½ assert ï¿½ï¿½ï¿½Æ‚ï¿½
         assert(mode != AddressingMode::Implied);
 
         *pOutValue = 0;
@@ -797,12 +797,12 @@ namespace nes { namespace detail {
         }
         else if (mode == AddressingMode::Immediate)
         {
-            // Immediate ‚Í PC + 1 ‚©‚ç‘f’¼‚É“Ç‚Ş
+            // Immediate ï¿½ï¿½ PC + 1 ï¿½ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½É“Ç‚ï¿½
             *pOutValue = m_pCpuBus->ReadByte(PC + 1);
         }
         else
         {
-            // ‘¼‚ÍƒAƒhƒŒƒX‚ªƒIƒyƒ‰ƒ“ƒh‚É‚È‚Á‚Ä‚é‚Í‚¸‚È‚Ì‚ÅAƒAƒhƒŒƒX‚ğ‚Á‚Ä‚«‚Ä1‰ñQÆ‚ğ”‚ª‚·(Indirect ‚Í2‰ñQÆ‚ğ”‚ª‚·•K—v‚ª‚ ‚é‚ªA1‰ñ‚Í FetchAddr ‘¤‚Å”‚ª‚µ‚Ä‚¢‚é)
+            // ï¿½ï¿½ï¿½ÍƒAï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Iï¿½yï¿½ï¿½ï¿½ï¿½ï¿½hï¿½É‚È‚ï¿½ï¿½Ä‚ï¿½Í‚ï¿½ï¿½È‚Ì‚ÅAï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½1ï¿½ï¿½Qï¿½Æ‚ğ”‚ï¿½ï¿½ï¿½(Indirect ï¿½ï¿½2ï¿½ï¿½Qï¿½Æ‚ğ”‚ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½é‚ªï¿½A1ï¿½ï¿½ï¿½ FetchAddr ï¿½ï¿½ï¿½Å”ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½)
             uint16_t addr = 0;
             FetchAddr(mode, &addr, pOutAdditionalCyc);
             *pOutValue = m_pCpuBus->ReadByte(addr);
@@ -811,7 +811,7 @@ namespace nes { namespace detail {
 
     void Cpu::Interrupt(InterruptType type)
     {
-        // nested interrupt ‚ª‹–‚³‚ê‚é‚Ì‚Í RESET ‚Æ NMI ‚Ì‚İ
+        // nested interrupt ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ RESET ï¿½ï¿½ NMI ï¿½Ì‚ï¿½
         bool nested = GetInterruptFlag();
 
         if (nested && (type == InterruptType::BRK || type == InterruptType::IRQ))
@@ -822,7 +822,7 @@ namespace nes { namespace detail {
         uint16_t lower = 0;
         uint16_t upper = 0;
 
-        // Š„‚è‚İƒtƒ‰ƒO‚ğ‚½‚Ä‚é
+        // ï¿½ï¿½ï¿½èï¿½İƒtï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½
         SetInterruptFlag(true);
 
         switch (type)
@@ -833,7 +833,7 @@ namespace nes { namespace detail {
             PushStack(static_cast<uint8_t>(PC >> 8));
             PushStack(static_cast<uint8_t>(PC));
 
-            // NMI, IRQ ‚Ì‚Æ‚«‚Í 5, 4 bit –Ú‚ğ 10‚É‚·‚é
+            // NMI, IRQ ï¿½Ì‚Æ‚ï¿½ï¿½ï¿½ 5, 4 bit ï¿½Ú‚ï¿½ 10ï¿½É‚ï¿½ï¿½ï¿½
             uint8_t pushData = P & 0b11001111;
             pushData |= (1 << 5);
             PushStack(pushData);
@@ -861,7 +861,7 @@ namespace nes { namespace detail {
             PushStack(static_cast<uint8_t>(PC >> 8));
             PushStack(static_cast<uint8_t>(PC));
 
-            // NMI, IRQ ‚Ì‚Æ‚«‚Í 5, 4 bit –Ú‚ğ 10‚É‚·‚é
+            // NMI, IRQ ï¿½Ì‚Æ‚ï¿½ï¿½ï¿½ 5, 4 bit ï¿½Ú‚ï¿½ 10ï¿½É‚ï¿½ï¿½ï¿½
             uint8_t pushData = P & 0b11001111;
             pushData |= (1 << 5);
             PushStack(pushData);
@@ -881,7 +881,7 @@ namespace nes { namespace detail {
             PushStack(static_cast<uint8_t>(PC >> 8));
             PushStack(static_cast<uint8_t>(PC));
 
-            // BRK ‚Ì‚Æ‚«‚Í 5, 4 bit–Ú‚ğ 11 ‚É‚·‚é‚Ì‚ÅG‚É OR ‚·‚é‚¾‚¯‚Å‚¢‚¢
+            // BRK ï¿½Ì‚Æ‚ï¿½ï¿½ï¿½ 5, 4 bitï¿½Ú‚ï¿½ 11 ï¿½É‚ï¿½ï¿½ï¿½Ì‚ÅGï¿½ï¿½ OR ï¿½ï¿½ï¿½é‚¾ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½
             uint8_t pushData = P;
             pushData |= 0b110000;
             PushStack(pushData);
@@ -897,7 +897,7 @@ namespace nes { namespace detail {
         }
     }
 
-    // stack ‚Í 0x0100-0x01FF ‚Å‚ ‚é‚±‚Æ‚É‹C‚ğ•t‚¯‚é
+    // stack ï¿½ï¿½ 0x0100-0x01FF ï¿½Å‚ï¿½ï¿½é‚±ï¿½Æ‚É‹Cï¿½ï¿½tï¿½ï¿½ï¿½ï¿½
     void Cpu::PushStack(uint8_t data)
     {
         m_pCpuBus->WriteByte(SP | (1 << 8), data);
@@ -912,16 +912,16 @@ namespace nes { namespace detail {
 
     uint8_t Cpu::Run()
     {
-        // –½—ß ƒtƒFƒbƒ`
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½tï¿½Fï¿½bï¿½`
         uint8_t instByte = m_pCpuBus->ReadByte(PC);
         Instruction inst = ByteToInstruction(instByte);
-        // TODO: –½—ßÀs‘O‚É–½—ß‚Ì disas ‚Æ¡‚Ìó‘Ô‚ğƒƒO‚Éo‚·
+        // TODO: ï¿½ï¿½ï¿½ßï¿½ï¿½sï¿½Oï¿½É–ï¿½ï¿½ß‚ï¿½ disas ï¿½Æï¿½ï¿½Ìï¿½Ô‚ï¿½ï¿½ï¿½ï¿½Oï¿½Éoï¿½ï¿½
 
         switch (inst.m_Opcode)
         {
         case Opcode::ADC:
         {
-            // ƒIƒyƒ‰ƒ“ƒh ƒtƒFƒbƒ`
+            // ï¿½Iï¿½yï¿½ï¿½ï¿½ï¿½ï¿½h ï¿½tï¿½Fï¿½bï¿½`
             uint8_t operand;
             uint8_t additionalCyc;
             FetchArg(inst.m_AddressingMode, &operand, &additionalCyc);
@@ -936,7 +936,7 @@ namespace nes { namespace detail {
             SetOverflowFlag(isSignedOverFlowed(A, operand, GetCarryFlag()));
 
             A = res;
-            // PC i‚ß‚é
+            // PC ï¿½iï¿½ß‚ï¿½
             PC += inst.m_Bytes;
             return inst.m_Cycles + additionalCyc;
         }
@@ -964,7 +964,7 @@ namespace nes { namespace detail {
 
             uint8_t res = arg << 1;
 
-            // MSB ‚ª—§‚Á‚Ä‚é‚É¶ƒVƒtƒg‚µ‚½‚ç carry ‚É‚È‚é
+            // MSB ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚éï¿½Éï¿½ï¿½Vï¿½tï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ carry ï¿½É‚È‚ï¿½
             bool carryFlag = (arg & 0x80) == 0x80;
             bool zeroFlag = (res == 0);
             bool negativeFlag = (res & 0x80) == 0x80;
@@ -994,17 +994,17 @@ namespace nes { namespace detail {
             uint8_t additionalCyc;
             FetchAddr(inst.m_AddressingMode, &addr, &additionalCyc);
 
-            // ƒLƒƒƒŠ[ƒtƒ‰ƒO‚ª—§‚Á‚Ä‚È‚©‚Á‚½‚ç•ªŠò
+            // ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç•ªï¿½ï¿½
             if (!GetCarryFlag())
             {
                 PC = addr;
-                // •ªŠò¬—§‚É + 1 ƒNƒƒbƒNƒTƒCƒNƒ‹
+                // ï¿½ï¿½ï¿½ò¬—ï¿½ï¿½ï¿½ï¿½ï¿½ + 1 ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½Tï¿½Cï¿½Nï¿½ï¿½
                 return inst.m_Cycles + additionalCyc + 1;
             }
             else
             {
                 PC += inst.m_Bytes;
-                // •ªŠò‚µ‚È‚¢‚Æ‚«‚Í additionalCyc ‘«‚³‚È‚¢
+                // ï¿½ï¿½ï¿½ò‚µ‚È‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ additionalCyc ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
                 return inst.m_Cycles;
             }
         }
@@ -1022,7 +1022,7 @@ namespace nes { namespace detail {
             else
             {
                 PC += inst.m_Bytes;
-                // •ªŠò‚µ‚È‚¢‚Æ‚«‚Í additionalCyc ‘«‚³‚È‚¢
+                // ï¿½ï¿½ï¿½ò‚µ‚È‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ additionalCyc ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
                 return inst.m_Cycles;
             }
         }
@@ -1040,7 +1040,7 @@ namespace nes { namespace detail {
             else
             {
                 PC += inst.m_Bytes;
-                // •ªŠò‚µ‚È‚¢‚Æ‚«‚Í additionalCyc ‘«‚³‚È‚¢
+                // ï¿½ï¿½ï¿½ò‚µ‚È‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ additionalCyc ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
                 return inst.m_Cycles;
             }
         }
@@ -1052,7 +1052,7 @@ namespace nes { namespace detail {
 
             bool negativeFlag = (arg & 0x80) == 0x80;
             bool overflowFlag = (arg & 0x40) == 0x40;
-            // Set if the result if the AND is zero(HHHHHHH)
+            // Set if the result if the AND is zero(ï¿½Hï¿½Hï¿½Hï¿½Hï¿½Hï¿½Hï¿½H)
             bool zeroFlag = (A & arg) == 0;
 
             SetNegativeFlag(negativeFlag);
@@ -1076,7 +1076,7 @@ namespace nes { namespace detail {
             else
             {
                 PC += inst.m_Bytes;
-                // •ªŠò‚µ‚È‚¢‚Æ‚«‚Í additionalCyc ‘«‚³‚È‚¢
+                // ï¿½ï¿½ï¿½ò‚µ‚È‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ additionalCyc ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
                 return inst.m_Cycles;
             }
         }
@@ -1094,7 +1094,7 @@ namespace nes { namespace detail {
             else
             {
                 PC += inst.m_Bytes;
-                // •ªŠò‚µ‚È‚¢‚Æ‚«‚Í additionalCyc ‘«‚³‚È‚¢
+                // ï¿½ï¿½ï¿½ò‚µ‚È‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ additionalCyc ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
                 return inst.m_Cycles;
             }
         }
@@ -1112,7 +1112,7 @@ namespace nes { namespace detail {
             else
             {
                 PC += inst.m_Bytes;
-                // •ªŠò‚µ‚È‚¢‚Æ‚«‚Í additionalCyc ‘«‚³‚È‚¢
+                // ï¿½ï¿½ï¿½ò‚µ‚È‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ additionalCyc ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
                 return inst.m_Cycles;
             }
         }
@@ -1136,7 +1136,7 @@ namespace nes { namespace detail {
             else
             {
                 PC += inst.m_Bytes;
-                // •ªŠò‚µ‚È‚¢‚Æ‚«‚Í additionalCyc ‘«‚³‚È‚¢
+                // ï¿½ï¿½ï¿½ò‚µ‚È‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ additionalCyc ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
                 return inst.m_Cycles;
             }
         }
@@ -1154,7 +1154,7 @@ namespace nes { namespace detail {
             else
             {
                 PC += inst.m_Bytes;
-                // •ªŠò‚µ‚È‚¢‚Æ‚«‚Í additionalCyc ‘«‚³‚È‚¢
+                // ï¿½ï¿½ï¿½ò‚µ‚È‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ additionalCyc ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
                 return inst.m_Cycles;
             }
         }
@@ -1261,7 +1261,7 @@ namespace nes { namespace detail {
         }
         case Opcode::DEX:
         {
-            // implied ‚Ì‚İ
+            // implied ï¿½Ì‚ï¿½
             uint8_t res = X - 1;
 
             bool zeroFlag = res == 0;
@@ -1276,7 +1276,7 @@ namespace nes { namespace detail {
         }
         case Opcode::DEY:
         {
-            // implied ‚Ì‚İ
+            // implied ï¿½Ì‚ï¿½
             uint8_t res = Y - 1;
 
             bool zeroFlag = res == 0;
@@ -1329,7 +1329,7 @@ namespace nes { namespace detail {
         }
         case Opcode::INX:
         {
-            // implied ‚Ì‚İ
+            // implied ï¿½Ì‚ï¿½
             uint8_t res = X + 1;
 
             bool zeroFlag = res == 0;
@@ -1344,7 +1344,7 @@ namespace nes { namespace detail {
         }
         case Opcode::INY:
         {
-            // implied ‚Ì‚İ
+            // implied ï¿½Ì‚ï¿½
             uint8_t res = Y + 1;
 
             bool zeroFlag = res == 0;
@@ -1374,10 +1374,10 @@ namespace nes { namespace detail {
             FetchAddr(inst.m_AddressingMode, &addr, &additionalCyc);
             assert(additionalCyc == 0);
 
-            // ƒŠƒ^[ƒ“ƒAƒhƒŒƒX‚Í PC + 3 ‚¾‚ªA‚»‚ê‚©‚ç 1 ‚ğˆø‚¢‚½‚à‚Ì‚ğ stack ‚ÉƒvƒbƒVƒ…‚·‚é(‚»‚¤‚¢‚¤d—l)
+            // ï¿½ï¿½ï¿½^ï¿½[ï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ PC + 3 ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ê‚©ï¿½ï¿½ 1 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ stack ï¿½Éƒvï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½dï¿½l)
             uint16_t retAddr = PC + 2;
 
-            // upper -> lower ‚Ì‡‚É push
+            // upper -> lower ï¿½Ìï¿½ï¿½ï¿½ push
             PushStack(static_cast<uint8_t>(retAddr >> 8));
             PushStack(static_cast<uint8_t>(retAddr & 0xFF));
 
@@ -1498,7 +1498,7 @@ namespace nes { namespace detail {
         }
         case Opcode::PHP:
         {
-            // http://wiki.nesdev.com/w/index.php/Status_flags: P ‚Ì 4bit –Ú‚Æ 5bit –Ú‚ğ—§‚Ä‚ÄƒXƒ^ƒbƒN‚ÉƒvƒbƒVƒ…
+            // http://wiki.nesdev.com/w/index.php/Status_flags: P ï¿½ï¿½ 4bit ï¿½Ú‚ï¿½ 5bit ï¿½Ú‚ğ—§‚Ä‚ÄƒXï¿½^ï¿½bï¿½Nï¿½Éƒvï¿½bï¿½Vï¿½ï¿½
             PushStack(P | B_FLAG_MASK);
             PC += inst.m_Bytes;
             return inst.m_Cycles;
@@ -1521,7 +1521,7 @@ namespace nes { namespace detail {
         {
             uint8_t res = PopStack();
 
-            // http://wiki.nesdev.com/w/index.php/Status_flags: P‚Ì 4bit –Ú‚Æ 5bit –Ú‚ÍXV‚µ‚È‚¢
+            // http://wiki.nesdev.com/w/index.php/Status_flags: Pï¿½ï¿½ 4bit ï¿½Ú‚ï¿½ 5bit ï¿½Ú‚ÍXï¿½Vï¿½ï¿½ï¿½È‚ï¿½
             P = (res & ~B_FLAG_MASK) | (P & B_FLAG_MASK);
 
             PC += inst.m_Bytes;
@@ -1601,7 +1601,7 @@ namespace nes { namespace detail {
         {
             uint8_t res = PopStack();
 
-            // http://wiki.nesdev.com/w/index.php/Status_flags: P‚Ì 4bit –Ú‚Æ 5bit –Ú‚ÍXV‚µ‚È‚¢
+            // http://wiki.nesdev.com/w/index.php/Status_flags: Pï¿½ï¿½ 4bit ï¿½Ú‚ï¿½ 5bit ï¿½Ú‚ÍXï¿½Vï¿½ï¿½ï¿½È‚ï¿½
             P = (res & ~B_FLAG_MASK) | (P & B_FLAG_MASK);
 
             uint16_t lower = PopStack();
@@ -1616,7 +1616,7 @@ namespace nes { namespace detail {
             uint16_t upper = PopStack();
             PC = lower | (upper << 8);
 
-            // JSR ‚ÅƒXƒ^ƒbƒN‚ÉƒvƒbƒVƒ…‚³‚ê‚éƒAƒhƒŒƒX‚Í JSR ‚ÌÅŒã‚ÌƒAƒhƒŒƒX‚ÅARTS ‘¤‚ÅƒCƒ“ƒNƒŠƒƒ“ƒg‚³‚ê‚é
+            // JSR ï¿½ÅƒXï¿½^ï¿½bï¿½Nï¿½Éƒvï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ JSR ï¿½ÌÅŒï¿½ÌƒAï¿½hï¿½ï¿½ï¿½Xï¿½ÅARTS ï¿½ï¿½ï¿½ÅƒCï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½
             PC++;
             return inst.m_Cycles;
         }
@@ -1626,7 +1626,7 @@ namespace nes { namespace detail {
             uint8_t additionalCyc;
             FetchArg(inst.m_AddressingMode, &arg, &additionalCyc);
 
-            // ‘«‚µZ‚É•ÏŠ·
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½É•ÏŠï¿½
             // http://www.righto.com/2012/12/the-6502-overflow-flag-explained.html#:~:text=The%20definition%20of%20the%206502,fit%20into%20a%20signed%20byte.&text=For%20each%20set%20of%20input,and%20the%20overflow%20bit%20V.
             // A - arg - borrow == A + ~arg + carry
 
@@ -1635,7 +1635,6 @@ namespace nes { namespace detail {
             uint16_t calc = static_cast<int16_t>(A) + arg + GetCarryFlag();
             uint8_t res = static_cast<uint8_t>(calc);
 
-            // ‘«‚µZ‚É•ÏŠ· ‚µ‚½‚Ì‚ÅA‘«‚µZ‚Æ“¯‚¶‚æ‚¤‚Éƒtƒ‰ƒOŒvZ‰Â”\
             bool overflowFlag = isSignedOverFlowed(A, arg, GetCarryFlag());
             bool carryFlag = calc > 0xff;
             bool negativeFlag = (res & 0x80) == 0x80;
@@ -1754,7 +1753,7 @@ namespace nes { namespace detail {
         }
         case Opcode::TXS:
         {
-            // 1 Byte ‚µ‚©g‚í‚È‚¢
+            // 1 Byte ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½È‚ï¿½
             SP = static_cast<uint16_t>(X);
 
             PC += inst.m_Bytes;
@@ -1800,7 +1799,7 @@ namespace nes { namespace detail {
         }
         case Opcode::ANC:
         {
-            // AND ‚µ‚ÄA N ‚ğ C ‚ÉƒRƒs[(•„†Šg’£‚Ég‚¦‚é‚»‚¤‚È)
+            // AND ï¿½ï¿½ï¿½ÄA N ï¿½ï¿½ C ï¿½ÉƒRï¿½sï¿½[(ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Égï¿½ï¿½ï¿½é‚»ï¿½ï¿½ï¿½ï¿½)
             uint8_t arg;
             uint8_t additionalCyc;
 
@@ -1823,7 +1822,7 @@ namespace nes { namespace detail {
         }
         case Opcode::ARR:
         {
-            // AND ‚µ‚ÄA ROR‚·‚éA C ‚Í bit6A V ‚Í bit6 ^ bit5
+            // AND ï¿½ï¿½ï¿½ÄA RORï¿½ï¿½ï¿½ï¿½A C ï¿½ï¿½ bit6ï¿½A V ï¿½ï¿½ bit6 ^ bit5
             uint8_t arg;
             uint8_t additionalCyc;
 
@@ -1836,7 +1835,7 @@ namespace nes { namespace detail {
             bool zeroFlag = res == 0;
             bool negativeFlag = (res & 0x80) == 0x80;
 
-            // carryflag ‚É‚Í bit6 ‚ª“ü‚Á‚Ä‚¢‚é‚Ì‚Åg‚¤
+            // carryflag ï¿½É‚ï¿½ bit6 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Ì‚Ågï¿½ï¿½
             bool bit6 = carryFlag;
             bool bit5 = (res & 0b00100000) == 0b00100000;
             bool overflowFlag = bit6 ^ bit5;
@@ -1853,7 +1852,7 @@ namespace nes { namespace detail {
         }
         case Opcode::AXS:
         {
-            // X = A & X - immAwithout borrow ‚Å‚ ‚é‚±‚Æ‚É’ˆÓ‚·‚é(‰ğßŠÔˆá‚Á‚Ä‚é‚©‚àH)
+            // X = A & X - immï¿½Awithout borrow ï¿½Å‚ï¿½ï¿½é‚±ï¿½Æ‚É’ï¿½ï¿½Ó‚ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ßŠÔˆï¿½ï¿½ï¿½Ä‚é‚©ï¿½ï¿½ï¿½H)
             uint8_t arg;
             uint8_t additionalCyc;
 
@@ -1861,7 +1860,7 @@ namespace nes { namespace detail {
 
             uint8_t tmp = A & X;
 
-            // 2‚Ì•â”•\Œ»‚Å‚Ì‰ÁZ‚É’¼‚·
+            // 2ï¿½Ì•â”ï¿½\ï¿½ï¿½ï¿½Å‚Ì‰ï¿½ï¿½Zï¿½É’ï¿½ï¿½ï¿½
             arg = GetTwosComplement(arg);
             uint16_t calc = tmp + arg;
             uint8_t res = static_cast<uint8_t>(calc);
@@ -1938,7 +1937,7 @@ namespace nes { namespace detail {
             m_pCpuBus->WriteByte(addr, res);
 
             PC += inst.m_Bytes;
-            // DCP ‚Í additionalCyc ‚ğ‘«‚³‚È‚¢(‘½•ªcc)
+            // DCP ï¿½ï¿½ additionalCyc ï¿½ğ‘«‚ï¿½ï¿½È‚ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½cï¿½c)
             return inst.m_Cycles;
         }
         case Opcode::ISC:
@@ -1954,7 +1953,7 @@ namespace nes { namespace detail {
             // INC
             m_pCpuBus->WriteByte(addr, ++arg);
 
-            // ‘«‚µZ‚É•ÏŠ·(SBC “¯—l)
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½É•ÏŠï¿½(SBC ï¿½ï¿½ï¿½l)
             // http://www.righto.com/2012/12/the-6502-overflow-flag-explained.html#:~:text=The%20definition%20of%20the%206502,fit%20into%20a%20signed%20byte.&text=For%20each%20set%20of%20input,and%20the%20overflow%20bit%20V.
             // A - arg - borrow == A + ~arg + carry
 
@@ -1963,7 +1962,6 @@ namespace nes { namespace detail {
             uint16_t calc = static_cast<int16_t>(A) + arg + GetCarryFlag();
             uint8_t res = static_cast<uint8_t>(calc);
 
-            // ‘«‚µZ‚É•ÏŠ· ‚µ‚½‚Ì‚ÅA‘«‚µZ‚Æ“¯‚¶‚æ‚¤‚Éƒtƒ‰ƒOŒvZ‰Â”\
             bool overflowFlag = isSignedOverFlowed(A, arg, GetCarryFlag());
             bool carryFlag = calc > 0xff;
             bool negativeFlag = (res & 0x80) == 0x80;
@@ -1976,7 +1974,7 @@ namespace nes { namespace detail {
 
             A = res;
             PC += inst.m_Bytes;
-            // ISC ‚Í additionalCyc ‚ğ‘«‚³‚È‚¢(‘½•ªcc)
+            // ISC ï¿½ï¿½ additionalCyc ï¿½ğ‘«‚ï¿½ï¿½È‚ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½cï¿½c)
             return inst.m_Cycles;
         }
         case Opcode::RLA:
@@ -1986,7 +1984,7 @@ namespace nes { namespace detail {
             uint8_t additionalCyc;
             uint16_t addr = 0;
 
-            // RLA ‚ÉƒAƒhƒŒƒbƒVƒ“ƒOƒ‚[ƒh Accumulator ‚Í‚È‚¢‚Ì‚ÅA•ªŠò‚Ì•K—v‚Í‚È‚¢
+            // RLA ï¿½ÉƒAï¿½hï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½h Accumulator ï¿½Í‚È‚ï¿½ï¿½Ì‚ÅAï¿½ï¿½ï¿½ï¿½Ì•Kï¿½vï¿½Í‚È‚ï¿½
             assert(inst.m_AddressingMode != AddressingMode::Accumulator);
             FetchAddr(inst.m_AddressingMode, &addr, &additionalCyc);
             FetchArg(inst.m_AddressingMode, &arg, &additionalCyc);
@@ -2012,7 +2010,7 @@ namespace nes { namespace detail {
             A = res;
 
             PC += inst.m_Bytes;
-            // RLA ‚Í additionalCyc ‚ğ‘«‚³‚È‚¢(‘½•ªcc)
+            // RLA ï¿½ï¿½ additionalCyc ï¿½ğ‘«‚ï¿½ï¿½È‚ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½cï¿½c)
             return inst.m_Cycles;
         }
         case Opcode::RRA:
@@ -2048,7 +2046,7 @@ namespace nes { namespace detail {
             A = res;
 
             PC += inst.m_Bytes;
-            // RRA ‚Í additionalCyc ‚ğ‘«‚³‚È‚¢(‘½•ªcc)
+            // RRA ï¿½ï¿½ additionalCyc ï¿½ğ‘«‚ï¿½ï¿½È‚ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½cï¿½c)
             return inst.m_Cycles;
         }
         case Opcode::SLO:
@@ -2064,7 +2062,7 @@ namespace nes { namespace detail {
             // ASL
             uint8_t res = arg << 1;
 
-            // MSB ‚ª—§‚Á‚Ä‚é‚É¶ƒVƒtƒg‚µ‚½‚ç carry ‚É‚È‚é
+            // MSB ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚éï¿½Éï¿½ï¿½Vï¿½tï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ carry ï¿½É‚È‚ï¿½
             bool carryFlag = (arg & 0x80) == 0x80;
             SetCarryFlag(carryFlag);
 
@@ -2082,7 +2080,7 @@ namespace nes { namespace detail {
             A = res;
 
             PC += inst.m_Bytes;
-            // SLO ‚Í additionalCyc ‚ğ‘«‚³‚È‚¢(‘½•ªcc)
+            // SLO ï¿½ï¿½ additionalCyc ï¿½ğ‘«‚ï¿½ï¿½È‚ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½cï¿½c)
             return inst.m_Cycles;
         }
         case Opcode::SRE:
@@ -2113,12 +2111,12 @@ namespace nes { namespace detail {
             A = res;
 
             PC += inst.m_Bytes;
-            // SRE ‚Í additionalCyc ‚ğ‘«‚³‚È‚¢(‘½•ªcc)
+            // SRE ï¿½ï¿½ additionalCyc ï¿½ğ‘«‚ï¿½ï¿½È‚ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½cï¿½c)
             return inst.m_Cycles;
         }
         case Opcode::SKB:
         {
-            // •›ì—p‚ğ‹C‚É‚µ‚½‚­‚È‚Á‚½ê‡‚Ì‚½‚ß‚ÉƒtƒFƒbƒ`‚¾‚¯‚·‚é
+            // ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½Cï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ì‚ï¿½ï¿½ß‚Éƒtï¿½Fï¿½bï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             uint8_t arg;
             uint8_t additionalCyc;
             FetchArg(inst.m_AddressingMode, &arg, &additionalCyc);
@@ -2128,7 +2126,7 @@ namespace nes { namespace detail {
         }
         case Opcode::IGN:
         {
-            // •›ì—p‚ğ‹C‚É‚µ‚½‚­‚È‚Á‚½ê‡‚Ì‚½‚ß‚ÉƒtƒFƒbƒ`‚¾‚¯‚·‚é
+            // ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½Cï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ì‚ï¿½ï¿½ß‚Éƒtï¿½Fï¿½bï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             uint8_t arg;
             uint8_t additionalCyc;
             FetchArg(inst.m_AddressingMode, &arg, &additionalCyc);
@@ -2139,7 +2137,7 @@ namespace nes { namespace detail {
 
         default:
             // unexpected default
-            abort();
+            exit(-1);
             break;
         }
         return 0;
@@ -2147,7 +2145,7 @@ namespace nes { namespace detail {
 
     CpuInfo Cpu::GetCpuInfoForDebug()
     {
-        // ‚¢‚Ü‚Ì PC ‚©‚ç –½—ß æ“¾
+        // ï¿½ï¿½ï¿½Ü‚ï¿½ PC ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½æ“¾
         uint8_t opcode = m_pCpuBus->ReadByte(PC);
         Instruction inst = ByteToInstruction(opcode);
         uint8_t instBytes[3];

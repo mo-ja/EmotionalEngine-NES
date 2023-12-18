@@ -40,10 +40,10 @@ namespace nes { namespace detail {
 
 	uint8_t CpuBus::ReadByte(uint16_t addr)
 	{
-		// WRAM ‚©‚ç‚Ì“Ç‚İo‚µ
+		// WRAM ï¿½ï¿½ï¿½ï¿½Ì“Ç‚İoï¿½ï¿½
 		if (addr < PPU_REG_BASE)
 		{
-			// Mirror ‘Î‰‚Ì‚½‚ß WRAM SIZE ‚Å‚ ‚Ü‚è‚ğ‚Æ‚é
+			// Mirror ï¿½Î‰ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ WRAM SIZE ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½Æ‚ï¿½
 			size_t idx = addr % WRAM_SIZE;
 			return m_pSystem->m_Wram[idx];
 		}
@@ -60,7 +60,7 @@ namespace nes { namespace detail {
 				return m_pPpu->ReadPpuData();
 			default:
 				// unexpected
-				abort();
+				exit(-1);
 				break;
 			}
 		}
@@ -83,17 +83,17 @@ namespace nes { namespace detail {
 				return m_pSystem->m_Pads[1].ReadPad();
 			}
 
-			// TORIAEZU: –¢À‘•‚ÌƒŒƒWƒXƒ^“Ç‚İo‚µ‚Íc‚µ‚Ä‚¨‚­
+			// TORIAEZU: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒï¿½ï¿½Wï¿½Xï¿½^ï¿½Ç‚İoï¿½ï¿½ï¿½Ícï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 			return m_pSystem->m_IoReg[idx];
 		}
 		else 
 		{
-			// TORIAEZU: ƒJƒZƒbƒg‚ÌŠg’£ ROM RAM ‚Í‹C‚É‚µ‚È‚¢
+			// TORIAEZU: ï¿½Jï¿½Zï¿½bï¿½gï¿½ÌŠgï¿½ï¿½ ROM RAM ï¿½Í‹Cï¿½É‚ï¿½ï¿½È‚ï¿½
 			assert(addr >= CASSETTE_PRG_ROM_BASE);
 
 			int offset = addr - CASSETTE_PRG_ROM_BASE;
 			uint8_t ret;
-			// CPU ‚©‚çŒ©‚¦‚é‚Ì‚Í PRG ROM ‚Ì‚İ
+			// CPU ï¿½ï¿½ï¿½çŒ©ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ PRG ROM ï¿½Ì‚ï¿½
 			m_pSystem->m_Cassette.ReadPrgRom(&ret, offset, 1);
 			return ret;
 		}
@@ -101,10 +101,10 @@ namespace nes { namespace detail {
 
 	void CpuBus::WriteByte(uint16_t addr, uint8_t data)
 	{
-		// WRAM ‚©‚ç‚Ì“Ç‚İo‚µ
+		// WRAM ï¿½ï¿½ï¿½ï¿½Ì“Ç‚İoï¿½ï¿½
 		if (addr < PPU_REG_BASE)
 		{
-			// Mirror ‘Î‰‚Ì‚½‚ß WRAM SIZE ‚Å‚ ‚Ü‚è‚ğ‚Æ‚é
+			// Mirror ï¿½Î‰ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ WRAM SIZE ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½Æ‚ï¿½
 			size_t idx = addr % WRAM_SIZE;
 			m_pSystem->m_Wram[idx] = data;
 		}
@@ -137,24 +137,24 @@ namespace nes { namespace detail {
 				break;
 			default:
 				// unexpected
-				abort();
+				exit(-1);
 				break;
 			}
 		}
 		else if (addr < CASSETTE_BASE)
 		{
 			size_t idx = addr - APU_IO_REG_BASE;
-			// TORIAEZU: ‹^—‘‚«‚İ‚Íc‚µ‚Ä‚¨‚­(ˆÓ–¡‚È‚¢‚¯‚ÇAƒfƒoƒbƒO—p‚­‚ç‚¢‚É)
+			// TORIAEZU: ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚Ícï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½(ï¿½Ó–ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ÇAï¿½fï¿½oï¿½bï¿½Oï¿½pï¿½ï¿½ï¿½ç‚¢ï¿½ï¿½)
 			m_pSystem->m_IoReg[idx] = data;
 			
 			const int APU_CHANNEL_REG_MAX = 0x4013;
 			if (addr <= APU_CHANNEL_REG_MAX) 
 			{
-				// APU ƒŒƒWƒXƒ^‘‚«‚İ
+				// APU ï¿½ï¿½ï¿½Wï¿½Xï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				m_pApu->WriteRegister(data, addr);
 			}
 
-			// APU ƒRƒ“ƒgƒ[ƒ‹ƒŒƒWƒXƒ^
+			// APU ï¿½Rï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Xï¿½^
 			if (addr == 0x4015 || addr == 0x4017) 
 			{
 				m_pApu->WriteRegister(data, addr);
@@ -169,26 +169,26 @@ namespace nes { namespace detail {
 			// Pad
 			if (addr == 0x4016)
 			{
-				// 4016 ‚Ì‘‚«‚İ‚Å Pad 0 1 ‚Ì setstrobe ‚³‚ê‚é‚Ì‚ª³‚µ‚¢H ƒƒ‚: https://taotao54321.hatenablog.com/entry/2017/04/11/011850
-				// 4017 ‘‚«‚İ‚Í APU §Œä‚È‚Ì‚ÅB
+				// 4016 ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ Pad 0 1 ï¿½ï¿½ setstrobe ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½H ï¿½ï¿½ï¿½ï¿½: https://taotao54321.hatenablog.com/entry/2017/04/11/011850
+				// 4017 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ APU ï¿½ï¿½ï¿½ï¿½È‚Ì‚ÅB
 				m_pSystem->m_Pads[0].SetStrobe(static_cast<bool>(data & 1));
 				m_pSystem->m_Pads[1].SetStrobe(static_cast<bool>(data & 1));
 			}
 		}
 		else
 		{
-			// TORIAEZU: ƒJƒZƒbƒg‚ÌŠg’£ ROM RAM ‚Í‹C‚É‚µ‚È‚¢
+			// TORIAEZU: ï¿½Jï¿½Zï¿½bï¿½gï¿½ÌŠgï¿½ï¿½ ROM RAM ï¿½Í‹Cï¿½É‚ï¿½ï¿½È‚ï¿½
 			assert(addr >= CASSETTE_PRG_ROM_BASE);
 
 			int offset = addr - CASSETTE_PRG_ROM_BASE;
-			// CPU ‚©‚çŒ©‚¦‚é‚Ì‚Í PRG ROM ‚Ì‚İ
+			// CPU ï¿½ï¿½ï¿½çŒ©ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ PRG ROM ï¿½Ì‚ï¿½
 			m_pSystem->m_Cassette.WritePrgRom(&data, offset, 1);
 		}
 	}
 
 	uint8_t PpuBus::ReadByte(uint16_t addr)
 	{
-		// CHR ROM ‚©‚ç‚Ì“Ç‚İo‚µ
+		// CHR ROM ï¿½ï¿½ï¿½ï¿½Ì“Ç‚İoï¿½ï¿½
 		if (addr < NAMETABLE_BASE)
 		{
 			uint8_t ret = 0;
@@ -197,10 +197,10 @@ namespace nes { namespace detail {
 		}
 		else if (addr < PALETTE_BASE)
 		{
-			// mirror ŒvZ
+			// mirror ï¿½vï¿½Z
 			uint16_t mirroredAddr = GetMirroredAddr(addr);
 
-			// nametable “Ç‚İo‚µ
+			// nametable ï¿½Ç‚İoï¿½ï¿½
 			size_t offset = mirroredAddr - NAMETABLE_BASE;
 
 			return m_pPpuSystem->m_NameTable[offset];
@@ -209,7 +209,7 @@ namespace nes { namespace detail {
 		{
 			addr = GetPaletteMirrorAddr(addr);
 
-			// palette “Ç‚İo‚µ
+			// palette ï¿½Ç‚İoï¿½ï¿½
 			size_t offset = addr - PALETTE_BASE;
 			size_t idx = offset % PALETTE_SIZE;
 
@@ -226,9 +226,9 @@ namespace nes { namespace detail {
 
 		if (addr >= PALETTE_BASE)
 		{
-			// ƒpƒŒƒbƒg—Ìˆæ‚Ì‘ã‚í‚è‚É nametable “Ç‚İo‚µ
+			// ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½Ìˆï¿½Ì‘ï¿½ï¿½ï¿½ï¿½ nametable ï¿½Ç‚İoï¿½ï¿½
 			uint16_t offset = addr - NAMETABLE_MIRROR_BASE;
-			// nametable ‚Ì’†‚¾‚Á‚½‚ç‚Ç‚±‚©‚ğŒvZ‚µ‚Ä‚©‚ç nametable mirror ‚ğŒvZ
+			// nametable ï¿½Ì’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½Zï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ nametable mirror ï¿½ï¿½ï¿½vï¿½Z
 			uint16_t nameTableAddr = NAMETABLE_BASE + offset;
 			uint16_t nameTableMirroredAddr = GetMirroredAddr(nameTableAddr);
 
@@ -243,17 +243,17 @@ namespace nes { namespace detail {
 
 	void PpuBus::WriteByte(uint16_t addr, uint8_t data)
 	{
-		// CHR ROM ‘‚«‚İ(H)
+		// CHR ROM ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½H)
 		if (addr < NAMETABLE_BASE)
 		{
 			m_pSystem->m_Cassette.WriteChrRom(&data, addr, 1);
 		}
 		else if (addr < PALETTE_BASE)
 		{
-			// mirror ŒvZ
+			// mirror ï¿½vï¿½Z
 			uint16_t mirroredAddr = GetMirroredAddr(addr);
 
-			// nametable ‘‚«‚İ
+			// nametable ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			size_t offset = mirroredAddr - NAMETABLE_BASE;
 			m_pPpuSystem->m_NameTable[offset] = data;
 		}
@@ -261,7 +261,7 @@ namespace nes { namespace detail {
 		{
 			addr = GetPaletteMirrorAddr(addr);
 
-			// palette ‘‚«‚İ
+			// palette ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			size_t offset = addr - PALETTE_BASE;
 			size_t idx = offset % PALETTE_SIZE;
 
@@ -282,14 +282,14 @@ namespace nes { namespace detail {
 
 	uint16_t PpuBus::GetMirroredAddr(uint16_t addr)
 	{
-		// nametable ˆÈŠO‚Ì”ÍˆÍ‚ÌƒAƒhƒŒƒX‚ª“n‚³‚ê‚½‚çƒvƒƒOƒ‰ƒ~ƒ“ƒOƒ~ƒX
+		// nametable ï¿½ÈŠOï¿½Ì”ÍˆÍ‚ÌƒAï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½nï¿½ï¿½ï¿½ê‚½ï¿½ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½~ï¿½ï¿½ï¿½Oï¿½~ï¿½X
 		assert(0x2000 <= addr && addr < 0x3000);
 
 		Mirroring mirroring = m_pSystem->m_Cassette.GetMirroring();
 		if (mirroring == Mirroring::Mirroring_Horizontal)
 		{
-			// …•½ƒ~ƒ‰[: [0x2000, 0x2400) ‚ª [0x2400, 0x2800) ‚ÉA[0x2800, 0x2c00) ‚ª[0x2c00, 0x3000) ‚Éƒ~ƒ‰[‚³‚ê‚é
-			// ƒ~ƒ‰[”ÍˆÍ‚¾‚Á‚½‚çG‚Éˆø‚«Z‚ğ‚·‚é‚º
+			// ï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½ï¿½ï¿½[: [0x2000, 0x2400) ï¿½ï¿½ [0x2400, 0x2800) ï¿½ÉA[0x2800, 0x2c00) ï¿½ï¿½[0x2c00, 0x3000) ï¿½Éƒ~ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½
+			// ï¿½~ï¿½ï¿½ï¿½[ï¿½ÍˆÍ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½Éˆï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½é‚º
 			if ((0x2400 <= addr && addr < 0x2800) ||
 				(0x2C00 <= addr && addr < 0x3000))
 			{
@@ -298,7 +298,7 @@ namespace nes { namespace detail {
 		}
 		else if (mirroring == Mirroring::Mirroring_Vertical)
 		{
-			// ‚’¼ƒ~ƒ‰[: [0x2000, 0x2800) ‚ª [0x2800, 0x3000) ‚Éƒ~ƒ‰[‚³‚ê‚é
+			// ï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½ï¿½ï¿½[: [0x2000, 0x2800) ï¿½ï¿½ [0x2800, 0x3000) ï¿½Éƒ~ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (0x2800 <= addr)
 			{
 				addr -= 0x800;
@@ -337,19 +337,19 @@ namespace nes { namespace detail {
 		m_IsInitialized = true;
 	}
 
-	// ƒtƒŒ[ƒ€ƒV[ƒPƒ“ƒT‚ª CPU ‚É IRQ ‚¢‚ê‚é
+	// ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Vï¿½[ï¿½Pï¿½ï¿½ï¿½Tï¿½ï¿½ CPU ï¿½ï¿½ IRQ ï¿½ï¿½ï¿½ï¿½ï¿½
 	void ApuBus::GenerateCpuInterrupt()
 	{
 		assert(m_IsInitialized);
 		m_pCpu->Interrupt(nes::detail::InterruptType::IRQ);
 	}
 
-	// APU ‚©‚ç DMA ‚Å CPU ƒƒ‚ƒŠ‹óŠÔ‚Ì’l‚ğ“Ç‚İ‚Ş
+	// APU ï¿½ï¿½ï¿½ï¿½ DMA ï¿½ï¿½ CPU ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ì’lï¿½ï¿½Ç‚İï¿½ï¿½ï¿½
 	uint8_t ApuBus::ReadByte(uint16_t addr)
 	{
 		assert(m_IsInitialized);
-		// DMC —p DMA
-		// $4012 ‘‚«‚İ‚Ì‹““®‚Æ wrap ‚Ì‹““®‚©‚çADMA ‚Å“Ç‚ŞƒAƒhƒŒƒX‚Í $8000 ˆÈ~(‚Â‚Ü‚èA PRG ROM ‚µ‚©‚æ‚Ü‚È‚¢)‚Ì‚Í‚¸A assert ‚µ‚Æ‚­
+		// DMC ï¿½p DMA
+		// $4012 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İï¿½ï¿½Ì‹ï¿½ï¿½ï¿½ï¿½ï¿½ wrap ï¿½Ì‹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ADMA ï¿½Å“Ç‚ŞƒAï¿½hï¿½ï¿½ï¿½Xï¿½ï¿½ $8000 ï¿½È~(ï¿½Â‚Ü‚ï¿½A PRG ROM ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚È‚ï¿½)ï¿½Ì‚Í‚ï¿½ï¿½A assert ï¿½ï¿½ï¿½Æ‚ï¿½
 		assert(addr >= CASSETTE_PRG_ROM_BASE);
 		int offset = addr - CASSETTE_PRG_ROM_BASE;
 

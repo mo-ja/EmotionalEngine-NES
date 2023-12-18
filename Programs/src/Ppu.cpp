@@ -1,11 +1,13 @@
 #pragma once
+#include <algorithm>
+#include <cstdlib>
 #include <cassert>
 #include <utility>
 #include "Ppu.h"
 
 namespace {
-	// ƒe[ƒuƒ‹‚ğ‚Ğ‚«‚Ğ‚«‚·‚éƒwƒ‹ƒp[ŠÖ”
-	// tile ‚Ì id ‚Æ attribute table ‚Ì—v‘f -> ƒpƒŒƒbƒg”Ô†
+	// ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ğ‚ï¿½ï¿½Ğ‚ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½ï¿½ï¿½pï¿½[ï¿½Öï¿½
+	// tile ï¿½ï¿½ id ï¿½ï¿½ attribute table ï¿½Ì—vï¿½f -> ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½Ôï¿½
 	uint8_t GetPaletteId(int tileId, uint8_t attributeTableElement)
 	{
 		uint8_t higher = (tileId / 64) % 2 == 0 ? 0 : 1;
@@ -14,7 +16,7 @@ namespace {
 
 		uint8_t paletteIdx = higher | lower;
 
-		// attribute table ‚©‚ç paletteIdx ”Ô–Ú‚Ì’l‚ğæ‚èo‚·
+		// attribute table ï¿½ï¿½ï¿½ï¿½ paletteIdx ï¿½Ô–Ú‚Ì’lï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½
 		uint8_t paletteId = attributeTableElement & (0b11 << (paletteIdx * 2));
 		paletteId >>= (paletteIdx * 2);
 
@@ -28,15 +30,15 @@ namespace nes { namespace detail {
 		int beforeCycles = m_Cycles;
 		int beforeLines = m_Lines;
 		
-		// ƒNƒƒbƒN‚Ì‰ÁZ‚Í BG •`‰æ‚µ‚È‚ª‚çs‚¤
+		// ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½Ì‰ï¿½ï¿½Zï¿½ï¿½ BG ï¿½`ï¿½æ‚µï¿½È‚ï¿½ï¿½ï¿½sï¿½ï¿½
 		DrawBackGround(clk);
 
-		// Line 241 ‚É‚«‚Ä‚½‚ç NMI ‚·‚é
+		// Line 241 ï¿½É‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ NMI ï¿½ï¿½ï¿½ï¿½
 		if (m_Lines != beforeLines && m_Lines == 241)
 		{
-			// ‰æ–Ê‚ªŠ®¬‚·‚é’¼‘O‚É sprite •`‰æ
+			// ï¿½ï¿½Ê‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é’¼ï¿½Oï¿½ï¿½ sprite ï¿½`ï¿½ï¿½
 			BuildSprites();
-			// VBLANK ƒtƒ‰ƒO—§‚Ä‚é
+			// VBLANK ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Ä‚ï¿½
 			SetVBlankFlag(true);
 
 			if (PPUCTRL & (1 << 7))
@@ -47,9 +49,9 @@ namespace nes { namespace detail {
 
 		if (m_Lines < 240)
 		{
-			// ‰Â‹ƒ‰ƒCƒ“‚Ì‚Æ‚«‚¾‚¯ Sprite 0 hit ‚ğ 1px ‚¸‚Âƒ`ƒFƒbƒN‚·‚éB[2, 257] cycle –Ú‚Å”»’è‚·‚éB
-			// ‚¢‚Ü‚İ‚Ä‚é line ‚Ì beforecycles - 2 ‚Ü‚ÅŒ©I‚í‚Á‚Ä‚é‚Í‚¸‚È‚Ì‚ÅA‚»‚ÌŸ‚ÌƒsƒNƒZƒ‹‚©‚çŒ©‚é
-			// line ‚ğ‚Ü‚½‚¢‚Å‚éê‡‚Í start ‚ğ 0 ‚É‚·‚éA m_Cycles ‚ª 1ˆÈ‰º ‚Ì‚Æ‚« end ‚ª•‰‚É‚È‚é‚¯‚Ç‰ó‚ê‚È‚¢‚Í‚¸
+			// ï¿½Âï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Ì‚Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ Sprite 0 hit ï¿½ï¿½ 1px ï¿½ï¿½ï¿½Âƒ`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½B[2, 257] cycle ï¿½Ú‚Å”ï¿½ï¿½è‚·ï¿½ï¿½B
+			// ï¿½ï¿½ï¿½Ü‚İ‚Ä‚ï¿½ line ï¿½ï¿½ beforecycles - 2 ï¿½Ü‚ÅŒï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½Ä‚ï¿½Í‚ï¿½ï¿½È‚Ì‚ÅAï¿½ï¿½ï¿½Ìï¿½ï¿½Ìƒsï¿½Nï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½çŒ©ï¿½ï¿½
+			// line ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ê‡ï¿½ï¿½ start ï¿½ï¿½ 0 ï¿½É‚ï¿½ï¿½ï¿½A m_Cycles ï¿½ï¿½ 1ï¿½È‰ï¿½ ï¿½Ì‚Æ‚ï¿½ end ï¿½ï¿½ï¿½ï¿½ï¿½É‚È‚é‚¯ï¿½Ç‰ï¿½ï¿½È‚ï¿½ï¿½Í‚ï¿½
 			int start = beforeCycles + clk >= 341 ? 0 : std::max(0, beforeCycles - 2 + 1);
 			int end = std::min(255, m_Cycles - 2);
 
@@ -61,7 +63,7 @@ namespace nes { namespace detail {
 				}
 			}
 		}
-		// line 261‚Ìæ“ª‚Å sprite 0 hit ƒtƒ‰ƒO ‚Æ VBlank ƒtƒ‰ƒO‚ğÜ‚é
+		// line 261ï¿½Ìæ“ªï¿½ï¿½ sprite 0 hit ï¿½tï¿½ï¿½ï¿½O ï¿½ï¿½ VBlank ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½Ü‚ï¿½
 		if (m_Lines == PPU_OUTPUT_Y + PPU_VBLANK_Y - 1)
 		{
 			PPUSTATUS &= ~PPUSTATUS_SPRITE_0_HIT;
@@ -84,52 +86,52 @@ namespace nes { namespace detail {
 	Sprite Ppu::GetSprite(int idx)
 	{
 		int offset = idx * sizeof(Sprite);
-		// OAM ‚©‚ç‚Í‚İo‚³‚È‚¢
+		// OAM ï¿½ï¿½ï¿½ï¿½Í‚İoï¿½ï¿½ï¿½È‚ï¿½
 		assert(offset + 3 < static_cast<int>(OAM_SIZE));
 
 		return Sprite(m_Oam[offset], m_Oam[offset + 1], m_Oam[offset + 2], m_Oam[offset + 3]);
 	}
 
-	// PPU Internal Register ‚ÉŠî‚Ã‚¢‚½ BackGround •`‰æ‚ÉŠî‚Ã‚¢‚½ Sprite 0 hit
-	// pre: “–ŠY Run ‚É‚¨‚¢‚ÄA DrawBackGround(clk) Ï
+	// PPU Internal Register ï¿½ÉŠï¿½Ã‚ï¿½ï¿½ï¿½ BackGround ï¿½`ï¿½ï¿½ÉŠï¿½Ã‚ï¿½ï¿½ï¿½ Sprite 0 hit
+	// pre: ï¿½ï¿½ï¿½Y Run ï¿½É‚ï¿½ï¿½ï¿½ï¿½ÄA DrawBackGround(clk) ï¿½ï¿½
 	bool Ppu::IsSprite0Hit(int y, int x)
 	{
-		// Sprite 0 hit ‚ª”­¶‚µ‚È‚¢ğŒ‚É“–‚Ä‚Í‚Ü‚Á‚Ä‚¢‚é‚È‚ç‘Šú return ‚µ‚¿‚á‚¤
+		// Sprite 0 hit ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É“ï¿½ï¿½Ä‚Í‚Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½È‚ç‘ï¿½ï¿½ return ï¿½ï¿½ï¿½ï¿½ï¿½á‚¤
 		bool enableClippingBg	  = (PPUMASK & PPUMASKS_ENABLE_BG_MASK)		== 0;
 		bool enableClippingSprite = (PPUMASK & PPUMASKS_ENABLE_SPRITE_MASK) == 0;
 		bool enableBg			  = (PPUMASK & PPUMASKS_ENABLE_BG)		    == PPUMASKS_ENABLE_BG;
 		bool enableSprite		  = (PPUMASK & PPUMASKS_ENABLE_SPRITE)      == PPUMASKS_ENABLE_SPRITE;
 
-		// ƒNƒŠƒbƒsƒ“ƒO—LŒø or {”wŒi or ƒXƒvƒ‰ƒCƒg•`‰æ–³Œø} ‚È‚çƒXƒvƒ‰ƒCƒg0hit‚µ‚È‚¢
+		// ï¿½Nï¿½ï¿½ï¿½bï¿½sï¿½ï¿½ï¿½Oï¿½Lï¿½ï¿½ or {ï¿½wï¿½i or ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½`ï¿½æ–³ï¿½ï¿½} ï¿½È‚ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½g0hitï¿½ï¿½ï¿½È‚ï¿½
 		if (enableClippingBg || enableClippingSprite || !enableBg || !enableSprite)
 		{
 			return false;
 		}
 
 		Sprite sprite0 = GetSprite(0);
-		// OAM ‚ÉŠi”[‚³‚ê‚éyÀ•W‚Í -1 ‚³‚ê‚Ä‚é‚Ì‚Å‘«‚·
+		// OAM ï¿½ÉŠiï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½Wï¿½ï¿½ -1 ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½Ì‚Å‘ï¿½ï¿½ï¿½
 		sprite0.y++;
 
-		// ƒXƒvƒ‰ƒCƒg“à‚Ì‘Š‘ÎÀ•W ŒvZ
+		// ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½Ì‘ï¿½ï¿½Îï¿½ï¿½W ï¿½vï¿½Z
 		int relativeY = y - sprite0.y;
 		int relativeX = x - sprite0.x;
 
-		// TORIAEZU: sprite size 8x8 ‚Ì‚İ‘Î‰
+		// TORIAEZU: sprite size 8x8 ï¿½Ì‚İ‘Î‰ï¿½
 		assert(GetSpriteSize() == SpriteSize::SpriteSize_8x8);
 
 		if (GetSpriteSize() == SpriteSize::SpriteSize_8x8)
 		{
-			// ”ÍˆÍŠO
+			// ï¿½ÍˆÍŠO
 			if (relativeX < 0 || relativeY < 0 || relativeX >= 8 || relativeY >= 8)
 			{
 				return false;
 			}
-			// ”ÍˆÍ“à ‚È‚ç pattern table ˆø‚­A¡‰ñ‚Ù‚µ‚¢‚Ì‚Í “§–¾ or not ‚¾‚¯‚È‚Ì‚Å second ‚¾‚¯Œ©‚é
+			// ï¿½ÍˆÍ“ï¿½ ï¿½È‚ï¿½ pattern table ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½Ù‚ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ ï¿½ï¿½ï¿½ï¿½ or not ï¿½ï¿½ï¿½ï¿½ï¿½È‚Ì‚ï¿½ second ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			bool isSpriteClear = GetSpritePixelColor(sprite0, relativeY, relativeX).second;
-			// –‘OğŒ(DrawBackGround(clk) Ï)‚ğ–‚½‚µ‚Ä‚¢‚ê‚ÎA m_IsBackgroundClear[y][x] ‚É‚ÍŠù‚É³‚µ‚¢’l‚ª“ü‚Á‚Ä‚¢‚é‚Í‚¸‚È‚Ì‚ÅA‚±‚ê‚Å‚æ‚¢‚Í‚¸
+			// ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½(DrawBackGround(clk) ï¿½ï¿½)ï¿½ğ–‚ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ÎA m_IsBackgroundClear[y][x] ï¿½É‚ÍŠï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Í‚ï¿½ï¿½È‚Ì‚ÅAï¿½ï¿½ï¿½ï¿½Å‚æ‚¢ï¿½Í‚ï¿½
 			bool isBgClear = m_IsBackgroundClear[y][x];
 
-			// —¼•û•s“§–¾‚È‚ç hit
+			// ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ hit
 			return (!isSpriteClear && !isBgClear) ? true : false;
 		}
 		else 
@@ -138,13 +140,13 @@ namespace nes { namespace detail {
 		}
 	}
 
-	// ƒXƒvƒ‰ƒCƒg‚Ì¶ã‚ğŒ´“_‚Æ‚µ‚½À•W‚ğw’è‚µ‚Äƒe[ƒuƒ‹‚ğˆø‚¢‚ÄƒXƒvƒ‰ƒCƒg‚ÌF‚Æ“§–¾‚©”Û‚©(“§–¾ = true)‚ğæ“¾‚·‚éAƒeƒXƒg—p‚ÉŒöŠJ‚µ‚Ä‚¨‚­
+	// ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½wï¿½è‚µï¿½Äƒeï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÄƒXï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ÌFï¿½Æ“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û‚ï¿½(ï¿½ï¿½ï¿½ï¿½ = true)ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½Aï¿½eï¿½Xï¿½gï¿½pï¿½ÉŒï¿½ï¿½Jï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 	std::pair<uint8_t, bool> Ppu::GetSpritePixelColor(Sprite sprite, int relativeY, int relativeX)
 	{
 		assert(relativeX < 8);
 		assert(relativeY < 8);
 
-		// ”½“]ƒtƒ‰ƒO‚ğŠm”F‚µ‚Ä—§‚Á‚Ä‚½‚ç”½“]‚³‚¹‚é
+		// ï¿½ï¿½ï¿½]ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½Ä—ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ç”½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		bool invHorizontal = ((1 << 6) & sprite.attribute) == (1 << 6);
 		bool invVertical   = ((1 << 7) & sprite.attribute) == (1 << 7);
 
@@ -169,15 +171,15 @@ namespace nes { namespace detail {
 		uint8_t color = colorLower | colorUpper;
 		assert(color <= 3);
 
-		// ƒpƒŒƒbƒg‚Ì id ‚Í Sprite ‚ª‚à‚Á‚Ä‚é
-		// ƒJƒ‰[ƒpƒŒƒbƒg‚ÌãˆÊ2bit(http://pgate1.at-ninja.jp/NES_on_FPGA/nes_ppu.htm#sprite) ‚Æ‚¢‚¤‚Ì‚ÌˆÓ–¡‚ª‚í‚©‚ç‚È‚¢‚ªAsprite palette base ‚ª 0x3f10 ‚ÅA‚»‚±‚©‚ç‚ÌƒIƒtƒZƒbƒg‚ğ4bit‚Åw’è‚·‚é‚Æl‚¦‚é‚Æ‚Â‚¶‚Â‚Ü‚ª‚ ‚¤‚Ì‚Å‚»‚¤l‚¦‚é
-		// ƒoƒO‚Á‚½‚ç‹^‚¤(Åˆ«)
+		// ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ id ï¿½ï¿½ Sprite ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½
+		// ï¿½Jï¿½ï¿½ï¿½[ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½Ìï¿½ï¿½2bit(http://pgate1.at-ninja.jp/NES_on_FPGA/nes_ppu.htm#sprite) ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Ì‚ÌˆÓ–ï¿½ï¿½ï¿½ï¿½í‚©ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Asprite palette base ï¿½ï¿½ 0x3f10 ï¿½ÅAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒIï¿½tï¿½Zï¿½bï¿½gï¿½ï¿½4bitï¿½Åwï¿½è‚·ï¿½ï¿½Ælï¿½ï¿½ï¿½ï¿½Æ‚Â‚ï¿½ï¿½Â‚Ü‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Å‚ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½
+		// ï¿½oï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½ï¿½(ï¿½Åˆï¿½)
 		uint16_t spritePaletteBase = PALETTE_BASE + SPRITE_PALETTE_OFFSET;
-		// attribute ‚Ì‰ºˆÊ 2 bit ‚ª sprite palette ‚Ì index
+		// attribute ï¿½Ì‰ï¿½ï¿½ï¿½ 2 bit ï¿½ï¿½ sprite palette ï¿½ï¿½ index
 		uint16_t spritePaletteId = sprite.attribute & 0b11;
-		// ŠeŠ‚Å“¾‚ç‚ê‚éî•ñ‚É‚µ‚½‚ª‚Á‚Ä or ‚É‚µ‚Æ‚­(spritePaletteId ‚ğ sprite palette ‚ÌƒCƒ“ƒfƒbƒNƒX‚Æ‚İ‚È‚µ‚Ä + spritePaletteId * 4 ‚Æ‚µ‚Ä‚àˆÓ–¡‚Í‚¨‚È‚¶‚Í‚¸)
+		// ï¿½eï¿½ï¿½ï¿½Å“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ or ï¿½É‚ï¿½ï¿½Æ‚ï¿½(spritePaletteId ï¿½ï¿½ sprite palette ï¿½ÌƒCï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½Æ‚İ‚È‚ï¿½ï¿½ï¿½ + spritePaletteId * 4 ï¿½Æ‚ï¿½ï¿½Ä‚ï¿½ï¿½Ó–ï¿½ï¿½Í‚ï¿½ï¿½È‚ï¿½ï¿½Í‚ï¿½)
 		uint16_t spritePaletteAddr = spritePaletteBase | (spritePaletteId << 2);
-		// color ‚ğ‘«‚µ‚ÄÀÛ‚É“Ç‚Ş‚×‚«ƒAƒhƒŒƒX‚É‚·‚é
+		// color ï¿½ğ‘«‚ï¿½ï¿½Äï¿½ï¿½Û‚É“Ç‚Ş‚×‚ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½É‚ï¿½ï¿½ï¿½
 		uint16_t colorAddr = spritePaletteAddr + color;
 
 		uint8_t ret = m_pPpuBus->ReadByte(colorAddr);
@@ -185,8 +187,8 @@ namespace nes { namespace detail {
 		return std::make_pair(ret, color == 0);
 	}
 
-	// ‰æ–Ê“àÀ•W(•`‰æÀ•W)‚ğ“ü—Í‚µ‚Ä‚»‚ÌƒsƒNƒZƒ‹‚ÌF‚ğæ“¾‚·‚éA‚»‚ÌF‚ª“§–¾‚©‚Ç‚¤‚©‚àæ“¾‚·‚é
-	// À‘•‚É‚Íg‚í‚ê‚È‚¢‚ªAƒeƒXƒg—p‚Éc‚µ‚Ä‚¨‚­
+	// ï¿½ï¿½Ê“ï¿½ï¿½ï¿½ï¿½W(ï¿½`ï¿½ï¿½ï¿½ï¿½W)ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½Ìƒsï¿½Nï¿½Zï¿½ï¿½ï¿½ÌFï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ÌFï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½É‚Ígï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Aï¿½eï¿½Xï¿½gï¿½pï¿½Écï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 	std::pair<uint8_t, bool> Ppu::GetBackGroundPixelColor(int y, int x)
 	{
 		return std::make_pair(m_PpuOutput[y][x], m_IsBackgroundClear[y][x]);
@@ -194,20 +196,20 @@ namespace nes { namespace detail {
 
 	void Ppu::DrawBackGround(int clk)
 	{
-		// clk ƒNƒƒbƒN PPU ‚ğ‚·‚·‚ß‚é
+		// clk ï¿½Nï¿½ï¿½ï¿½bï¿½N PPU ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
 		for (int i = 0; i < clk; i++)
 		{
-			// 1 cycle ‚É 1 px •`‰æ‚·‚é‚±‚Æ‚É’ˆÓ‚·‚é
+			// 1 cycle ï¿½ï¿½ 1 px ï¿½`ï¿½æ‚·ï¿½é‚±ï¿½Æ‚É’ï¿½ï¿½Ó‚ï¿½ï¿½ï¿½
 			if (m_Cycles == 0)
 			{
-				// Line ‚ÌÅ‰‚Å Fine X Scroll ‚ğ“K—p‚·‚é
+				// Line ï¿½ÌÅï¿½ï¿½ï¿½ Fine X Scroll ï¿½ï¿½Kï¿½pï¿½ï¿½ï¿½ï¿½
 				m_BGRelativeX = m_InternalReg.GetFineX();
 			}
 
 			int x = m_Cycles;
 			int y = m_Lines;
 
-			// •`‰æ”ÍˆÍ“à‚È‚ç•`‰æ‚·‚é
+			// ï¿½`ï¿½ï¿½ÍˆÍ“ï¿½ï¿½È‚ï¿½`ï¿½æ‚·ï¿½ï¿½
 			if (y < PPU_OUTPUT_Y && x < PPU_OUTPUT_X)
 			{
 				uint16_t tileAddr		= m_InternalReg.GetTileAddress();
@@ -215,19 +217,19 @@ namespace nes { namespace detail {
 
 				uint8_t attributeTable = m_pPpuBus->ReadByte(attributeAddr);
 
-				// g‚¤ƒpƒŒƒbƒg‚ğ“Á’è‚·‚é
-				// ‰ºˆÊ 10 bit ‚ª tile id 
+				// ï¿½gï¿½ï¿½ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½ï¿½ï¿½ï¿½è‚·ï¿½ï¿½
+				// ï¿½ï¿½ï¿½ï¿½ 10 bit ï¿½ï¿½ tile id 
 				uint16_t tileId = tileAddr & 0b1111111111;
 				uint8_t paletteId = GetPaletteId(tileId, attributeTable);
 
-				// tile “à‚Å‚Ì‘Š‘ÎÀ•W
+				// tile ï¿½ï¿½ï¿½Å‚Ì‘ï¿½ï¿½Îï¿½ï¿½W
 				int RelativeX = m_BGRelativeX;
 				int RelativeY = m_InternalReg.GetFineY(PpuInternalRegistertarget::PpuInternalRegistertarget_v);
 
-				// nametable ˆø‚«
+				// nametable ï¿½ï¿½ï¿½ï¿½
 				uint8_t spriteNum = m_pPpuBus->ReadByte(static_cast<uint16_t>(tileAddr));
 
-				// pattern table ˆø‚«
+				// pattern table ï¿½ï¿½ï¿½ï¿½
 				uint8_t patternTableLower = m_pPpuBus->ReadByte(GetBGPatternTableBase() + spriteNum * static_cast<uint16_t>(PATTERN_TABLE_ELEMENT_SIZE) + RelativeY);
 				uint8_t patternTableUpper = m_pPpuBus->ReadByte(GetBGPatternTableBase() + spriteNum * static_cast<uint16_t>(PATTERN_TABLE_ELEMENT_SIZE) + RelativeY + 8);
 
@@ -240,7 +242,7 @@ namespace nes { namespace detail {
 				uint8_t color = colorLower | colorUpper;
 				assert(color <= 3);
 
-				// palette[paletteId][color] ‚ªÀÛ‚ÉŠG‚Æ‚µ‚ÄŒ»‚ê‚éFB color == 0 ‚Ì‚Æ‚«‚Í“§–¾F
+				// palette[paletteId][color] ï¿½ï¿½ï¿½ï¿½ï¿½Û‚ÉŠGï¿½Æ‚ï¿½ï¿½ÄŒï¿½ï¿½ï¿½ï¿½Fï¿½B color == 0 ï¿½Ì‚Æ‚ï¿½ï¿½Í“ï¿½ï¿½ï¿½ï¿½F
 				const uint16_t PaletteSize = 4;
 				uint8_t outColor = m_pPpuBus->ReadByte(PALETTE_BASE + PaletteSize * paletteId + color);
 
@@ -254,7 +256,7 @@ namespace nes { namespace detail {
 				}
 			}
 
-			// v XV
+			// v ï¿½Xï¿½V
 			if (x == 257)
 			{
 				m_InternalReg.UpdateHorizontalV();
@@ -265,16 +267,16 @@ namespace nes { namespace detail {
 				m_InternalReg.UpdateVerticalV();
 			}
 
-			// •`‰æÀ•W‚ÉŠî‚Ã‚¢‚Ä“à•”ƒŒƒWƒXƒ^‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚é
-			// Line ‚Ì 256 dot –Ú‚É‚«‚Ä‚½‚ç Y ƒCƒ“ƒNƒŠƒƒ“ƒg
+			// ï¿½`ï¿½ï¿½ï¿½ï¿½Wï¿½ÉŠï¿½Ã‚ï¿½ï¿½Ä“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Xï¿½^ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½
+			// Line ï¿½ï¿½ 256 dot ï¿½Ú‚É‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ Y ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½g
 			if (x == 256)
 			{
 				m_InternalReg.IncrementY();
 			}
 
-			// X ‚Ì‘Š‘ÎÀ•W(fine X ‚©‚çn‚Ü‚é“z) ‚ª 8 ‚É‚È‚Á‚Ä‚¢‚½‚ç Coarse X ‚ğƒCƒ“ƒNƒŠƒƒ“ƒg
+			// X ï¿½Ì‘ï¿½ï¿½Îï¿½ï¿½W(fine X ï¿½ï¿½ï¿½ï¿½nï¿½Ü‚ï¿½z) ï¿½ï¿½ 8 ï¿½É‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ Coarse X ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½g
 			// Between dot 328 of a scanline, and 256 of the next scanline ???(https://wiki.nesdev.com/w/index.php/PPU_scrolling#Between_dot_328_of_a_scanline.2C_and_256_of_the_next_scanline)
-			// ‹«ŠE‚ ‚â‚µ‚¢‚©‚à
+			// ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½â‚µï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			//if (x >= 328 || x < 256) 
 			if (x < 256)
 			{
@@ -287,7 +289,7 @@ namespace nes { namespace detail {
 			}
 
 			m_Cycles++;
-			// PPU ƒTƒCƒNƒ‹‚Í mod 341 ‚Å•Û‚·‚é(341 PPU cycles ‚Å 1 Line •`‰æ‚³‚ê‚é‚Ì‚Å)
+			// PPU ï¿½Tï¿½Cï¿½Nï¿½ï¿½ï¿½ï¿½ mod 341 ï¿½Å•Ûï¿½ï¿½ï¿½ï¿½ï¿½(341 PPU cycles ï¿½ï¿½ 1 Line ï¿½`ï¿½æ‚³ï¿½ï¿½ï¿½Ì‚ï¿½)
 			if (m_Cycles >= 341)
 			{
 				m_Cycles %= 341;
@@ -298,7 +300,7 @@ namespace nes { namespace detail {
 
 	void Ppu::BuildSprites()
 	{
-		// OAM ‚É•Û‚Å‚«‚éƒXƒvƒ‰ƒCƒg‚Í 64 ŒÂ
+		// OAM ï¿½É•Ûï¿½ï¿½Å‚ï¿½ï¿½ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ 64 ï¿½ï¿½
 		for (int i = 0; i < OAM_SIZE / sizeof(Sprite); i++)
 		{
 			Sprite sprite = GetSprite(i);
@@ -310,7 +312,7 @@ namespace nes { namespace detail {
 			{
 				for (int rx = 0; rx < 8; rx++)
 				{
-					// ‚Í‚İo‚µ‚Ä‚é‚È‚ç‚È‚ñ‚à‚µ‚È‚¢
+					// ï¿½Í‚İoï¿½ï¿½ï¿½Ä‚ï¿½È‚ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 					if (ry + offsetY >= PPU_OUTPUT_Y || rx + offsetX >= PPU_OUTPUT_X) 
 					{
 						continue;
@@ -318,19 +320,19 @@ namespace nes { namespace detail {
 
 					auto [color, isClear] = GetSpritePixelColor(sprite, ry, rx);
 					if (isClear) {
-						// “§–¾F‚È‚ç‚È‚ñ‚à‚µ‚È‚¢
+						// ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½È‚ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 						continue;
 					}
 
 					bool isFront = (sprite.attribute & (1 << 5)) == 0;
 					if (isFront)
 					{
-						// front: –â“š–³—p‚Å•`‰æ
+						// front: ï¿½â“šï¿½ï¿½ï¿½pï¿½Å•`ï¿½ï¿½
 						m_PpuOutput[ry + offsetY][rx + offsetX] = color;
 					}
 					else if(m_IsBackgroundClear[ry + offsetY][rx + offsetX])
 					{
-						// back: ”wŒi‚ª“§–¾‚È‚ç•`‰æ
+						// back: ï¿½wï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½`ï¿½ï¿½
 						m_PpuOutput[ry + offsetY][rx + offsetX] = color;
 					}
 				}
@@ -340,12 +342,12 @@ namespace nes { namespace detail {
 
 	uint16_t Ppu::GetBGPatternTableBase()
 	{
-		// PPUCTRL[4] ‚Å”wŒiƒpƒ^[ƒ“ƒe[ƒuƒ‹ƒAƒhƒŒƒX‚ğ•ªŠò‚·‚é
+		// PPUCTRL[4] ï¿½Å”wï¿½iï¿½pï¿½^ï¿½[ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ğ•ªŠò‚·‚ï¿½
 		return (PPUCTRL & 1 << 4) ? 0x1000 : 0x0000;
 	}
 	uint16_t Ppu::GetSpritePatternTableBase()
 	{
-		// PPUCTRL[3] ‚ÅƒXƒvƒ‰ƒCƒgƒpƒ^[ƒ“ƒe[ƒuƒ‹ƒAƒhƒŒƒX‚ğ•ªŠò‚·‚é
+		// PPUCTRL[3] ï¿½ÅƒXï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½pï¿½^ï¿½[ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½ğ•ªŠò‚·‚ï¿½
 		return (PPUCTRL & 1 << 3) ? 0x1000 : 0x0000;
 	}
 
@@ -362,7 +364,7 @@ namespace nes { namespace detail {
 	{
 		PPUCTRL = data;
 		
-		// “à•”ƒŒƒWƒXƒ^‚Ì nametable select ‚É”½‰f(‚±‚Ì•Ó Œ©‚é https://wiki.nesdev.com/w/index.php/PPU_scrolling#Register_controls)
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Xï¿½^ï¿½ï¿½ nametable select ï¿½É”ï¿½ï¿½f(ï¿½ï¿½ï¿½Ì•ï¿½ ï¿½ï¿½ï¿½ï¿½ https://wiki.nesdev.com/w/index.php/PPU_scrolling#Register_controls)
 		uint8_t arg = data & 0b11;
 		m_InternalReg.SetNametableSelect(PpuInternalRegistertarget::PpuInternalRegistertarget_t, arg);
 	}
@@ -376,8 +378,8 @@ namespace nes { namespace detail {
 	}
 	void Ppu::WriteOamData(uint8_t data)
 	{
-		// •’Ê‚Í DMA ‚³‚ê‚é‚ç‚µ‚¢‚Ì‚ÅA‚ ‚Ü‚è’@‚©‚ê‚È‚¢‚©‚à
-		// OAMADDR ƒCƒ“ƒNƒŠƒƒ“ƒg‚Ìª‹’: http://pgate1.at-ninja.jp/NES_on_FPGA/nes_ppu.htm
+		// ï¿½ï¿½ï¿½Ê‚ï¿½ DMA ï¿½ï¿½ï¿½ï¿½ï¿½ç‚µï¿½ï¿½ï¿½Ì‚ÅAï¿½ï¿½ï¿½Ü‚ï¿½@ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½
+		// OAMADDR ï¿½Cï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½Ìï¿½ï¿½ï¿½: http://pgate1.at-ninja.jp/NES_on_FPGA/nes_ppu.htm
 		m_Oam[OAMADDR] = data;
 		OAMADDR++;
 	}
@@ -418,7 +420,7 @@ namespace nes { namespace detail {
 			m_IsValidPpuAddr = false;
 		}
 
-		// “à•”ƒŒƒWƒXƒ^‚É‚àˆê‰”½‰f‚³‚¹‚Æ‚­
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Xï¿½^ï¿½É‚ï¿½ï¿½ê‰ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
 		if (!m_InternalReg.GetW())
 		{
 			m_InternalReg.SetUpperPpuAddr(data);
@@ -436,15 +438,15 @@ namespace nes { namespace detail {
 
 	uint8_t Ppu::ReadPpuStatus()
 	{
-		// 2‰ñ“Ç‚İƒtƒ‰ƒO‚ğƒŠƒZƒbƒg
+		// 2ï¿½ï¿½Ç‚İƒtï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
 		m_InternalReg.SetW(false);
 		m_IsLowerPpuAddr = false;
 		m_IsValidPpuAddr = false;
 
-		// VBLANK ƒtƒ‰ƒO ƒNƒŠƒA‚·‚é‘O‚É’l‚ğ•Û‚µ‚Ä‚¨‚­
+		// VBLANK ï¿½tï¿½ï¿½ï¿½O ï¿½Nï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½Oï¿½É’lï¿½ï¿½Ûï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 		uint8_t ret = PPUSTATUS;
 
-		// VBlank ƒtƒ‰ƒO‚ğƒNƒŠƒA
+		// VBlank ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½A
 		SetVBlankFlag(false);
 
 		return ret;
@@ -454,7 +456,7 @@ namespace nes { namespace detail {
 		uint8_t buffered = m_VramReadBuf;
 		if (m_VramAddr >= PALETTE_BASE)
 		{
-			// ƒpƒŒƒbƒgƒe[ƒuƒ‹‚Í‘¦“Ç‚İo‚µA "‰º"‚É‚ ‚éƒl[ƒ€ƒe[ƒuƒ‹‚Ìƒ~ƒ‰[‚ªƒoƒbƒtƒ@‚É“ü‚é
+			// ï¿½pï¿½ï¿½ï¿½bï¿½gï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Í‘ï¿½ï¿½ï¿½ï¿½Ç‚İoï¿½ï¿½ï¿½A "ï¿½ï¿½"ï¿½É‚ï¿½ï¿½ï¿½lï¿½[ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½Ìƒ~ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½tï¿½@ï¿½É“ï¿½ï¿½ï¿½
 			m_VramReadBuf = m_pPpuBus->ReadByte(m_VramAddr, true);
 			uint8_t ret = m_pPpuBus->ReadByte(m_VramAddr);
 			m_VramAddr += GetVramOffset();
@@ -493,10 +495,10 @@ namespace nes { namespace detail {
 		*pCycles = m_Cycles;
 	}
 
-	// PPU “à•”ƒŒƒWƒXƒ^ƒAƒNƒZƒT[
+	// PPU ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Xï¿½^ï¿½Aï¿½Nï¿½Zï¿½Tï¿½[
 	void PpuInternalRegister::SetCoarseX(PpuInternalRegistertarget target, uint8_t data)
 	{
-		// ‰ºˆÊ 5 bit ‚Ì‚İ—LŒø
+		// ï¿½ï¿½ï¿½ï¿½ 5 bit ï¿½Ì‚İ—Lï¿½ï¿½
 		assert((0b11100000 & data) == 0);
 		if (target == PpuInternalRegistertarget::PpuInternalRegistertarget_t)
 		{
@@ -511,7 +513,7 @@ namespace nes { namespace detail {
 	}
 	void PpuInternalRegister::SetCoarseY(PpuInternalRegistertarget target, uint8_t data)
 	{
-		// ‰ºˆÊ 5 bit ‚Ì‚İ—LŒø
+		// ï¿½ï¿½ï¿½ï¿½ 5 bit ï¿½Ì‚İ—Lï¿½ï¿½
 		assert((0b11100000 & data) == 0);
 		if (target == PpuInternalRegistertarget::PpuInternalRegistertarget_t)
 		{
@@ -528,7 +530,7 @@ namespace nes { namespace detail {
 	}
 	void PpuInternalRegister::SetNametableSelect(PpuInternalRegistertarget target, uint8_t data)
 	{
-		// ‰ºˆÊ 2 bit ‚Ì‚İ—LŒø
+		// ï¿½ï¿½ï¿½ï¿½ 2 bit ï¿½Ì‚İ—Lï¿½ï¿½
 		assert((0b11111100 & data) == 0);
 		if (target == PpuInternalRegistertarget::PpuInternalRegistertarget_t)
 		{
@@ -545,7 +547,7 @@ namespace nes { namespace detail {
 	}
 	void PpuInternalRegister::SetFineY(PpuInternalRegistertarget target, uint8_t data)
 	{
-		// ‰ºˆÊ 3 bit ‚Ì‚İ—LŒø
+		// ï¿½ï¿½ï¿½ï¿½ 3 bit ï¿½Ì‚İ—Lï¿½ï¿½
 		assert((0b11111000 & data) == 0);
 		if (target == PpuInternalRegistertarget::PpuInternalRegistertarget_t)
 		{
@@ -562,7 +564,7 @@ namespace nes { namespace detail {
 	}
 	void PpuInternalRegister::SetFineX(uint8_t data)
 	{
-		// ‰ºˆÊ 3 bit ‚Ì‚İ—LŒø
+		// ï¿½ï¿½ï¿½ï¿½ 3 bit ï¿½Ì‚İ—Lï¿½ï¿½
 		assert((0b11111000 & data) == 0);
 		x = data;
 	}
@@ -572,7 +574,7 @@ namespace nes { namespace detail {
 	}
 	void PpuInternalRegister::SetUpperPpuAddr(uint8_t data)
 	{
-		// ã 2 bit ‚ğƒ}ƒXƒN‚·‚é(https://wiki.nesdev.com/w/index.php/PPU_scrolling#Register_controls)
+		// ï¿½ï¿½ 2 bit ï¿½ï¿½ï¿½}ï¿½Xï¿½Nï¿½ï¿½ï¿½ï¿½(https://wiki.nesdev.com/w/index.php/PPU_scrolling#Register_controls)
 		data &= 0b00111111;
 		uint16_t writeData = static_cast<uint16_t>(data) << 8;
 		t &= 0xFF;
@@ -581,7 +583,7 @@ namespace nes { namespace detail {
 	}
 	void PpuInternalRegister::SetLowerPpuAddr(uint8_t data)
 	{
-		// ‰ºˆÊ8bit ‚ğXV‚·‚é‚¾‚¯
+		// ï¿½ï¿½ï¿½ï¿½8bit ï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½é‚¾ï¿½ï¿½
 		t &= 0xFF00;
 		t |= data;
 		v = t;
@@ -602,7 +604,7 @@ namespace nes { namespace detail {
 		else
 		{
 			// unexpected default
-			abort();
+			exit(-1);
 		}
 	}
 	uint8_t PpuInternalRegister::GetCoarseY(PpuInternalRegistertarget target)
@@ -618,7 +620,7 @@ namespace nes { namespace detail {
 		else
 		{
 			// unexpected default
-			abort();
+			exit(-1);
 		}
 	}
 	uint8_t PpuInternalRegister::GetNametableSelect(PpuInternalRegistertarget target)
@@ -634,7 +636,7 @@ namespace nes { namespace detail {
 		else
 		{
 			// unexpected default
-			abort();
+			exit(-1);
 		}
 	}
 	uint8_t PpuInternalRegister::GetFineY(PpuInternalRegistertarget target)
@@ -650,7 +652,7 @@ namespace nes { namespace detail {
 		else
 		{
 			// unexpected default
-			abort();
+			exit(-1);
 		}
 	}
 	uint8_t PpuInternalRegister::GetFineX()
@@ -663,11 +665,11 @@ namespace nes { namespace detail {
 	}
 
 
-	// •`‰æ’†‚ÌƒCƒ“ƒNƒŠƒƒ“ƒg(https://wiki.nesdev.com/w/index.php/PPU_scrolling#Wrapping_around)
+	// ï¿½`ï¿½æ’†ï¿½ÌƒCï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½g(https://wiki.nesdev.com/w/index.php/PPU_scrolling#Wrapping_around)
 	void PpuInternalRegister::IncrementCoarseX()
 	{
 		uint8_t coarseX = GetCoarseX(PpuInternalRegistertarget::PpuInternalRegistertarget_v);
-		// tile 31 ‚ÌŸ‚Í 0 ‚É‚à‚Ç‚·Aã‚ÅÀ‘•‚µ‚½ƒAƒNƒZƒT[‚Íg‚í‚¸‚É nesdev wiki ‚Ì‹^—ƒR[ƒh‚ğ‚»‚Ì‚Ü‚Üg‚Á‚¿‚á‚¤
+		// tile 31 ï¿½Ìï¿½ï¿½ï¿½ 0 ï¿½É‚ï¿½ï¿½Ç‚ï¿½ï¿½Aï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Nï¿½Zï¿½Tï¿½[ï¿½Ígï¿½í‚¸ï¿½ï¿½ nesdev wiki ï¿½Ì‹^ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Ü‚Ügï¿½ï¿½ï¿½ï¿½ï¿½á‚¤
 		if (coarseX == 31)
 		{
 			v &= ~0x001F;          // coarse X = 0
@@ -681,7 +683,7 @@ namespace nes { namespace detail {
 
 	void PpuInternalRegister::IncrementY()
 	{
-		// ‚±‚¿‚ç‚à nesdev wiki ‚Ì‹^—ƒR[ƒh‚ğ‚»‚Ì‚Ü‚Üg‚Á‚¿‚á‚¤
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ nesdev wiki ï¿½Ì‹^ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Ü‚Ügï¿½ï¿½ï¿½ï¿½ï¿½á‚¤
 		if ((v & 0x7000) != 0x7000)				// if fine Y < 7
 		{
 			v += 0x1000;						// increment fine Y
@@ -724,7 +726,7 @@ namespace nes { namespace detail {
 		v |= update;
 	}
 
-	// Œ»İ‚Ìƒ^ƒCƒ‹‚Æ attribute table ‚ÌƒAƒhƒŒƒXæ“¾(https://wiki.nesdev.com/w/index.php/PPU_scrolling#Tile_and_attribute_fetching)
+	// ï¿½ï¿½ï¿½İ‚Ìƒ^ï¿½Cï¿½ï¿½ï¿½ï¿½ attribute table ï¿½ÌƒAï¿½hï¿½ï¿½ï¿½Xï¿½æ“¾(https://wiki.nesdev.com/w/index.php/PPU_scrolling#Tile_and_attribute_fetching)
 	uint16_t PpuInternalRegister::GetTileAddress()
 	{
 		return static_cast<uint16_t>(0x2000 | (v & 0x0FFF));

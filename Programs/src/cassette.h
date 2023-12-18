@@ -1,4 +1,5 @@
 #pragma once
+#include <cstddef>
 #include <stdint.h>
 #include "constants.h"
 
@@ -10,17 +11,17 @@ namespace nes { namespace detail {
 	{
 		Mirroring_Horizontal,
 		Mirroring_Vertical
-		// TODO: •Ï‚È Mirroring(4‰æ–Ê‘S•”‚Æ‚©)
+		// TODO: ï¿½Ï‚ï¿½ Mirroring(4ï¿½ï¿½Ê‘Sï¿½ï¿½ï¿½Æ‚ï¿½)
 	};
 
 	struct INESHeader
 	{
 		uint8_t m_Magic[4];
-		// 16KiB ’PˆÊ‚Ì PRG ROM ‚ÌƒTƒCƒY
+		// 16KiB ï¿½Pï¿½Ê‚ï¿½ PRG ROM ï¿½ÌƒTï¿½Cï¿½Y
 		uint8_t m_PrgRomSize;
-		// 8 KiB ’PˆÊ‚Ì CHR ROM ‚ÌƒTƒCƒY
+		// 8 KiB ï¿½Pï¿½Ê‚ï¿½ CHR ROM ï¿½ÌƒTï¿½Cï¿½Y
 		uint8_t m_ChrRomSize;
-		// TODO: ƒtƒ‰ƒO‚Ì’†g‚ğ’²¸‚·‚é
+		// TODO: ï¿½tï¿½ï¿½ï¿½Oï¿½Ì’ï¿½ï¿½gï¿½ğ’²ï¿½ï¿½ï¿½ï¿½ï¿½
 		uint8_t m_Flags6;
 		uint8_t m_Flags7;
 		uint8_t m_Flags8;
@@ -41,7 +42,7 @@ namespace nes { namespace detail {
 			,m_PrgRomSize(0)
 			,m_ChrRomSize(0)
 		{}
-		// ROM ‚ÌƒoƒCƒiƒŠ‚ğ‘‚«‚ñ‚¾ƒoƒbƒtƒ@‚Æ‚»‚ÌƒTƒCƒY‚ğˆø”‚É‚Æ‚Á‚Ä‰Šú‰»
+		// ROM ï¿½Ìƒoï¿½Cï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ñ‚¾ƒoï¿½bï¿½tï¿½@ï¿½Æ‚ï¿½ï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚Æ‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½
 		void Initialize(uint8_t* pBuffer, size_t bufferSize);
 		void ReadPrgRom(uint8_t* pBuffer, int offset, size_t size);
 		void WritePrgRom(const uint8_t* pBuffer, int offset, size_t size);

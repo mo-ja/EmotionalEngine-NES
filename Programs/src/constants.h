@@ -1,4 +1,5 @@
 #pragma once
+#include <cstddef>
 #include <stdint.h>
 
 namespace nes {
@@ -11,15 +12,15 @@ namespace nes {
 	const size_t APU_IO_REG_SIZE = 0x20;
 
 	// PPU Memory Map
-	// TORIAEZU: ƒ~ƒ‰[ƒŠƒ“ƒO‚Íl—¶‚µ‚È‚¢‚Å4‰æ–Ê•ª‚Æ‚Á‚Ä‚¨‚­
+	// TORIAEZU: ï¿½~ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Ílï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½4ï¿½ï¿½Ê•ï¿½ï¿½Æ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 	const size_t NAMETABLE_SIZE = 0x1000;
 	const size_t PALETTE_SIZE = 0x20;
-	// Nametable ‚Æ Attribute Table‚Ì‚Ð‚Æ‚Â‚Ô‚ñ‚ÌƒTƒCƒY
+	// Nametable ï¿½ï¿½ Attribute Tableï¿½Ì‚Ð‚Æ‚Â‚Ô‚ï¿½ÌƒTï¿½Cï¿½Y
 	const size_t NAME_TABLE_SINGLE_SIZE = 0x3C0;
 	const size_t ATTRIBUTE_TABLE_SINGLE_SIZE = 0x40;
-	// ƒl[ƒ€ƒe[ƒuƒ‹‚ðƒCƒ“ƒfƒbƒNƒXŽw’è‚·‚é‚Æ‚«‚É•K—vcc
+	// ï¿½lï¿½[ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½wï¿½è‚·ï¿½ï¿½Æ‚ï¿½ï¿½É•Kï¿½vï¿½cï¿½c
 	const size_t NAME_TABLE_AND_ATTRIBUTE_TABLE_SINGLE_SIZE = NAME_TABLE_SINGLE_SIZE + ATTRIBUTE_TABLE_SINGLE_SIZE;
-	// ƒpƒ^[ƒ“ƒe[ƒuƒ‹‚ðƒCƒ“ƒfƒbƒNƒXŽw’è‚·‚é‚Æ‚«‚É•K—v(ƒpƒ^[ƒ“ƒe[ƒuƒ‹1—v‘f‚ÌƒTƒCƒY‚Í16byte)
+	// ï¿½pï¿½^ï¿½[ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½wï¿½è‚·ï¿½ï¿½Æ‚ï¿½ï¿½É•Kï¿½v(ï¿½pï¿½^ï¿½[ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½1ï¿½vï¿½fï¿½ÌƒTï¿½Cï¿½Yï¿½ï¿½16byte)
 	const size_t PATTERN_TABLE_ELEMENT_SIZE = 16;
 
 	// OAM(Object Attribute Memory / Sprite Memory)
@@ -33,12 +34,12 @@ namespace nes {
 
 	// PPU Base Addr
 	const uint16_t NAMETABLE_BASE = 0x2000;
-	// 0x3000-0x3EFF ‚Éƒl[ƒ€ƒe[ƒuƒ‹ 4 –‡•ª‚Ìƒ~ƒ‰[
+	// 0x3000-0x3EFF ï¿½Éƒlï¿½[ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ 4 ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ~ï¿½ï¿½ï¿½[
 	const uint16_t NAMETABLE_MIRROR_BASE = 0x3000;
 	const uint16_t PALETTE_BASE = 0x3F00;
 
 	// PPU Offset
-	// PALETTE_BASE ‚©‚ç ƒXƒvƒ‰ƒCƒgƒpƒŒƒbƒg‚Ìƒx[ƒXƒAƒhƒŒƒX‚Ö‚ÌƒIƒtƒZƒbƒg
+	// PALETTE_BASE ï¿½ï¿½ï¿½ï¿½ ï¿½Xï¿½vï¿½ï¿½ï¿½Cï¿½gï¿½pï¿½ï¿½ï¿½bï¿½gï¿½Ìƒxï¿½[ï¿½Xï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½Ö‚ÌƒIï¿½tï¿½Zï¿½bï¿½g
 	const uint16_t SPRITE_PALETTE_OFFSET = 0x10;
 
 	// PPU Output Size
