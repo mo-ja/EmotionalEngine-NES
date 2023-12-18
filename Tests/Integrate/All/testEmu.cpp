@@ -3,11 +3,11 @@
 #include "Nes.h"
 
 namespace {
-	// NES ‚Ì‰æ–ÊƒTƒCƒY
+	// NES ï¿½Ì‰ï¿½ÊƒTï¿½Cï¿½Y
 	const int NesGraphicWidth = 256;
 	const int NesGraphicHeight = 240;
 
-	// HELLO WORLD ‚·‚é ROM “Ç‚İ‚Ş
+	// HELLO WORLD ï¿½ï¿½ï¿½ï¿½ ROM ï¿½Ç‚İï¿½ï¿½ï¿½
 	void ReadRom(std::shared_ptr<uint8_t[]>* pOutBuf, size_t* pOutSize)
 	{
 		auto rootPath = test::GetRepositoryRootPath();
@@ -34,12 +34,12 @@ namespace {
 		for (int y = 0; y < 240 * 2; y++) {
 			for (int x = 0; x < 256 * 2; x++) {
 				auto& c = result[y/2][x/2];
-				// B, G, R ‚Ì‡”Ô https://dxlib.xsrv.jp/cgi/patiobbs/patio.cgi?mode=view&no=4620&p=2
+				// B, G, R ï¿½Ìï¿½ï¿½ï¿½ https://dxlib.xsrv.jp/cgi/patiobbs/patio.cgi?mode=view&no=4620&p=2
 				p[0] = c.Blue;
 				p[1] = c.Green;
 				p[2] = c.Red;
 
-				// 1 px ‚Í 3 byte
+				// 1 px ï¿½ï¿½ 3 byte
 				p += 3;
 			}
 		}
@@ -50,13 +50,13 @@ namespace {
 		//DrawSoftImage(256, 240, softImage);
 	}
 
-	// ƒL[“ü—Í‚ğƒGƒ~ƒ…‚É“ü‚ê‚é
+	// ï¿½Lï¿½[ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Gï¿½~ï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½
 	void InputKey(nes::Emulator* emu)
 	{
 		char keyInput[256];
 		GetHitKeyStateAll(keyInput);
 
-		// ‚Ù‚ñ‚Æ‚Í“ü—Í‚Ì—§‚¿ã‚ª‚è—§‚¿‰º‚ª‚è‚ğŒŸo‚µ‚½‚¢‚ªAƒGƒ~ƒ…‚ÌÀ‘•ã‚»‚¤‚µ‚È‚­‚Ä‚à‚¢‚¢‚Ì‚ÅƒTƒ{‚é(’è””{’x‚­‚È‚é‚¯‚Ç)
+		// ï¿½Ù‚ï¿½Æ‚Í“ï¿½ï¿½Í‚Ì—ï¿½ï¿½ï¿½ï¿½ã‚ªï¿½è—§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Gï¿½~ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ã‚»ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÅƒTï¿½{ï¿½ï¿½(ï¿½è”ï¿½{ï¿½xï¿½ï¿½ï¿½È‚é‚¯ï¿½ï¿½)
 		if (keyInput[KEY_INPUT_LEFT] != 0) 
 		{
 			emu->PushButton(nes::PadId::Zero, nes::PadButton::LEFT);
@@ -130,21 +130,21 @@ namespace {
 		}
 	}
 
-	// Player ‚Ìƒnƒ“ƒhƒ‹(ƒTƒEƒ“ƒh)
+	// Player ï¿½Ìƒnï¿½ï¿½ï¿½hï¿½ï¿½(ï¿½Tï¿½Eï¿½ï¿½ï¿½h)
 	int g_SoftSoundPlayerHandle = -1;
-	// ƒTƒ“ƒvƒŠƒ“ƒOü”g” 44100 Hz
+	// ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½gï¿½ï¿½ 44100 Hz
 	const int SamplingFreq = 44100;
 }
 
 void InitializeSound()
 {
-	// ‚Æ‚è‚ ‚¦‚¸A ƒ`ƒƒƒ“ƒlƒ‹”:1 —Êq‰»ƒrƒbƒg”:8bit ƒTƒ“ƒvƒŠƒ“ƒOü”g”:44KHz ‚Å‚â‚Á‚Ä‚İ‚é
+	// ï¿½Æ‚è‚ ï¿½ï¿½ï¿½ï¿½ï¿½A ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½:1 ï¿½Êqï¿½ï¿½ï¿½rï¿½bï¿½gï¿½ï¿½:8bit ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½gï¿½ï¿½:44KHz ï¿½Å‚ï¿½ï¿½ï¿½Ä‚İ‚ï¿½
 	g_SoftSoundPlayerHandle = MakeSoftSoundPlayer1Ch8Bit44KHz();
 }
 
 void AddWaveSample(int sample) 
 {
-	// 3F ‚Ô‚ñ
+	// 3F ï¿½Ô‚ï¿½
 	const int MaxSampleCount = SamplingFreq / 30;
 	static int skipSampleCount = 0;
 
@@ -155,21 +155,21 @@ void AddWaveSample(int sample)
 		skipSampleCount++;
 		skipSampleCount %= 80;
 
-		// ‚ ‚Ó‚ê‚Ä‚½‚çƒTƒ“ƒvƒŠƒ“ƒO‚ğ‚¿‚å‚Á‚Æ‚Ö‚ç‚·
+		// ï¿½ï¿½ï¿½Ó‚ï¿½Ä‚ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚Ö‚ç‚·
 		if (skipSampleCount == 0) 
 		{
 			return;
 		}
 	}
-	// ‚Ä‚«‚Æ‚¤
+	// ï¿½Ä‚ï¿½ï¿½Æ‚ï¿½
 	sample *= 10;
 	AddOneDataSoftSoundPlayer(g_SoftSoundPlayerHandle, sample, sample);
 }
 
-// ƒvƒƒOƒ‰ƒ€‚Í WinMain ‚©‚çn‚Ü‚è‚Ü‚·
+// ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ WinMain ï¿½ï¿½ï¿½ï¿½nï¿½Ü‚ï¿½Ü‚ï¿½
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
-	// G NES ƒGƒ~ƒ… €”õ
+	// ï¿½G NES ï¿½Gï¿½~ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	std::shared_ptr<uint8_t[]> rom;
 	size_t size;
 	ReadRom(&rom, &size);
@@ -188,23 +188,23 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
 	InitializeSound();
 
-	// •`‰æƒoƒbƒtƒ@
+	// ï¿½`ï¿½ï¿½oï¿½bï¿½tï¿½@
 	nes::Color result[NesGraphicHeight][NesGraphicWidth];
 
-	// dxlib ‚Å“®“I‚ÉƒCƒ[ƒW‚ğ•`‰æ‚·‚é‚½‚ß‚É‚Â‚©‚¤‚â‚Â
+	// dxlib ï¿½Å“ï¿½ï¿½Iï¿½ÉƒCï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½`ï¿½æ‚·ï¿½é‚½ï¿½ß‚É‚Â‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	auto softImage = MakeRGB8ColorSoftImage(NesGraphicWidth * 2, NesGraphicHeight * 2);
 
-	// •`‰ææ‚ğ— ‰æ–Ê‚É‚·‚é
+	// ï¿½`ï¿½ï¿½ï¿½ğ— ‰ï¿½Ê‚É‚ï¿½ï¿½ï¿½
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	while (1) 
 	{
 		if (ProcessMessage() != 0) 
-		{ // ƒƒbƒZ[ƒWˆ—
-			break;//ƒEƒBƒ“ƒhƒE‚Ì~ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚çƒ‹[ƒv‚ğ”²‚¯‚é
+		{ // ï¿½ï¿½ï¿½bï¿½Zï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
+			break;//ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Ì~ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½çƒ‹ï¿½[ï¿½vï¿½ğ”²‚ï¿½ï¿½ï¿½
 		}
 
-		// ‰¹ ƒXƒ^[ƒg
+		// ï¿½ï¿½ ï¿½Xï¿½^ï¿½[ï¿½g
 		if (CheckStartSoftSoundPlayer(g_SoftSoundPlayerHandle) == FALSE) 
 		{
 			StartSoftSoundPlayer(g_SoftSoundPlayerHandle);
@@ -215,7 +215,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 		if (info.CpuCycles % 50 == 0) {
 			clsDx();
 			int sampleCount = GetStockDataLengthSoftSoundPlayer(g_SoftSoundPlayerHandle);
-			// ‘‚«•Ï‚í‚ç‚È‚¢êŠ‚É printfDx ‚·‚é‚Æ‚È‚º‚©c‘œ‚ªŒ©‚¦‚é‚Ì‚ÅG‚É NES ‚Ì‰æ–Ê‚É”í‚é‚æ‚¤‚É—­‚Ü‚Á‚Ä‚éƒTƒ“ƒvƒ‹”‚ğo‚µ‚Æ‚­(Åˆ«)
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ï‚ï¿½ï¿½È‚ï¿½ï¿½êŠï¿½ï¿½ printfDx ï¿½ï¿½ï¿½ï¿½Æ‚È‚ï¿½ï¿½ï¿½ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÅGï¿½ï¿½ NES ï¿½Ì‰ï¿½Ê‚É”ï¿½ï¿½æ‚¤ï¿½É—ï¿½ï¿½Ü‚ï¿½ï¿½Ä‚ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Æ‚ï¿½(ï¿½Åˆï¿½)
 			printfDx("       %d samples\n", sampleCount);
 		}
 
